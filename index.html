@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h1>Hello</h1>
+		<span id="one"></span>
+		<span id="two"></span>
+	</body>
+	<script type="text/javascript" src="lib.min.js"></script>
+	<script>
+		var credentials = {};
+		var endpoints = [
+			{
+				url: '/films',
+				action: "DELETE",
+				alias: "removeFilm"
+			},
+			{
+				url: '/films',
+				action: "POST",
+				alias: "addFilms"
+			},
+			{
+				url: 'https://api.github.com/users/octocat/repos',
+				action: "GET",
+				alias: "getFilms"
+			}
+		];
+
+		Leap = window.initLeap('HTTP', {endpoints, credentials});
+		Leap.dataStream.subscribe(function(res) {
+			console.log('Data Stream:');
+			console.log(res.data);
+		});
+		Leap.errorStream.subscribe(function(err) {
+			console.log('Error Stream:');
+			console.error(err);
+		});
+	</script>
+</html>

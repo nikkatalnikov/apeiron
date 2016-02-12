@@ -1,0 +1,25 @@
+{
+	"name": "leap",
+	"version": "0.0.1",
+	"description": "reactive data layer library",
+	"main": "lib.js",
+	"scripts": {
+		"bundle": "browserify lib.js -t babelify --outfile lib.min.js -vd",
+		"lint": "eslint .",
+		"build": "npm run lint && npm run bundle"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^0.9.1",
+		"babel-cli": "^6.4.5",
+		"babel-core": "^6.4.5",
+		"babel-polyfill": "^6.3.14",
+		"babel-preset-es2015": "^6.3.13",
+		"babelify": "^7.2.0",
+		"browserify": "^13.0.0",
+		"eslint": "^1.10.3",
+		"eslint-config-airbnb": "^5.0.0",
+		"rx": "^4.0.7"
+	}
+}
