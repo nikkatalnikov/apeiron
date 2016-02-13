@@ -11,11 +11,12 @@ export default class StreamAPI {
 
 		this.requestStream = new Subject();
 		this.errorStream = new Subject();
+		this.metaStream = new Subject();
 
 		switch (type) {
 			case STREAM_TYPE.HTTP: {
 				this.dataStream = this.requestStream
-					.flatMap(data =>
+					.concatMap(data =>
 						Observable
 							.fromPromise(xhr(data))
 							.catch(err => {
@@ -29,14 +30,14 @@ export default class StreamAPI {
 			}
 			case STREAM_TYPE.WS: {
 				this.dataStream = this.requestStream
-					.flatMap(data => Observable.fromWebSocket(data))
+					.concatMap(data => Observable.fromWebSocket(data))
 					.retry()
 					.share();
 				break;
 			}
 			case STREAM_TYPE.COLLECTION: {
 				this.dataStream = this.requestStream
-					.flatMap(data => Observable.fromArray(data))
+					.concatMap(data => Observable.fromArray(data))
 					.retry()
 					.share();
 				break;
