@@ -16,14 +16,8 @@ export default class StreamAPI {
 		switch (type) {
 			case STREAM_TYPE.HTTP: {
 				this.dataStream = this.requestStream
-					.concatMap(data =>
-						Observable
-							.fromPromise(xhr(data))
-							.catch(err => {
-								this.errorStream.onNext(err);
-								return Observable.empty();
-							})
-					)
+					.concatMap(data => Observable.fromPromise(xhr(data)))
+					.doOnError(err => this.errorStream.onNext(err))
 					.retry()
 					.share();
 				break;
@@ -31,6 +25,7 @@ export default class StreamAPI {
 			case STREAM_TYPE.WS: {
 				this.dataStream = this.requestStream
 					.concatMap(data => Observable.fromWebSocket(data))
+					.doOnError(err => this.errorStream.onNext(err))
 					.retry()
 					.share();
 				break;
@@ -38,17 +33,16 @@ export default class StreamAPI {
 			case STREAM_TYPE.COLLECTION: {
 				this.dataStream = this.requestStream
 					.concatMap(data => Observable.fromArray(data))
-					.retry()
 					.share();
 				break;
 			}
 			default: {
-				return new Error(`${type} of protocol doesn't exist`);
+				return new Error(`${type} type of protocol doesn't exist`);
 			}
 		}
 	}
 	send(alias, data) {
-		const notFoundErr = new Error(`${alias} doesn't exist`);
+		const notFoundErr = new Error(`${alias} endpoint doesn't exist`);
 		const foundSuggestions = Observable
 							.fromArray(this.endpoints)
 							.filter(endpoint => endpoint.alias === alias);
