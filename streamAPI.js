@@ -18,7 +18,7 @@ const callXHR = (service, { endpoint, data }) => {
 	return handler(url, data);
 };
 
-export default class StreamAPI {
+export class StreamAPI {
 	constructor(type, { endpoints, config, credentials }) {
 		Object.assign(this, { endpoints }, { credentials });
 

@@ -2,13 +2,13 @@
 	"name": "leap",
 	"version": "0.0.1",
 	"description": "reactive data layer library",
-	"main": "lib.js",
 	"scripts": {
-		"bundle": "browserify lib.js -t babelify --outfile lib.min.js -vd",
+		"bundle": "browserify -vd streamAPI.js -t babelify -s Leap > index.js",
 		"lint": "eslint .",
-		"build": "npm run lint && npm run bundle"
+		"build": "npm run lint && npm run bundle",
+		"postinstall": "npm run build"
 	},
-	"author": "",
+	"authors": "Nik Katalnikov, Dmitriy Shapovalov",
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^0.9.1",

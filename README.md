@@ -2,7 +2,7 @@ TODO:
 
 0. Implement metaStream (ws connection, HTTP headers/head method?)
 
-1. HTTP methods + validations
+1. HTTP validations
 
 2. .fromWebsocket()
 
@@ -22,8 +22,8 @@ TODO:
 
 Examples:
 
-1. async MVC -> Controller 
+1. React
 
-2. React
+2. Angular 1.5
 
-3. Angular 1.5
+Architecture guide: async MVC (DL -> Controller -> Viev)
