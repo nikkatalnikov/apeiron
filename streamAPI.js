@@ -42,14 +42,11 @@ export default class StreamAPI {
 		}
 	}
 	send(alias, data) {
-		const notFoundErr = new Error(`${alias} endpoint doesn't exist`);
-		const foundSuggestions = Observable
-							.fromArray(this.endpoints)
-							.filter(endpoint => endpoint.alias === alias);
-		const notFoundStream = foundSuggestions.isEmpty();
-		foundSuggestions
-			.subscribe(endpoint => this.requestStream.onNext({ endpoint, data }));
-		notFoundStream
-			.subscribe(isEmpty => isEmpty ? this.errorStream.onNext(notFoundErr) : void 0);
+		const endpoint = this.endpoints[alias];
+		if (endpoint) {
+			this.requestStream.onNext({ endpoint, data });
+		} else {
+			this.errorStream.onNext(new Error(`${alias} endpoint doesn't exist`));
+		}
 	}
 }
