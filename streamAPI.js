@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rx';
+import { Observable, Subject } from 'rx-lite';
 import axios from 'axios';
 import { STREAM_TYPE } from './consts.js';
 
