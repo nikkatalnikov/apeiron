@@ -12,22 +12,35 @@
 	<script type="text/javascript" src="lib.min.js"></script>
 	<script>
 		var credentials = {};
+		
+		var config = {
+			baseURL: 'http://localhost:3000'
+		};
+
 		var endpoints = {
-			removeFilm: {
-				url: '/films',
-				action: "DELETE"
+			removePost: {
+				url: '/posts/:id',
+				method: 'delete'
 			},
-			addFilms: {
-				url: '/films',
-				action: "POST"
+			addPost: {
+				url: '/posts',
+				method: 'post'
 			},
-			getFilms: {
-				url: 'https://api.github.com/users/octocat/repos',
-				action: "GET"
+			getPosts: {
+				url: '/posts',
+				method: 'get'
+			},
+			getPost: {
+				url: '/posts/:id',
+				method: 'get'
+			},
+			editPost: {
+				url: '/posts/:id',
+				method: 'put'
 			}
 		}
 
-		Leap = window.initLeap('HTTP', {endpoints, credentials});
+		Leap = window.initLeap('HTTP', {endpoints, config, credentials});
 		Leap.dataStream.subscribe(function(res) {
 			console.log('Data Stream:');
 			console.log(res.data);

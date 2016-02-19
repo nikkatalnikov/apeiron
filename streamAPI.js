@@ -1,12 +1,25 @@
 import { Observable, Subject } from 'rx';
-import { get } from 'axios';
+import axios from 'axios';
 import { STREAM_TYPE } from './consts.js';
-// import { get, post, put, patch, delete, head } from 'axios';
 
-const xhr = (reqData) => get(reqData.endpoint.url);
+// TODO: externalize
+const callXHR = (service, { endpoint, data }) => {
+	const method = endpoint.method;
+	const handler = service[method].bind(service);
+	let url = endpoint.url;
+
+	if (url.includes(':id')) {
+		if (!data || !data.id) {
+			return Promise.reject(new Error(`${url} request must have id`));
+		}
+		url = url.replace(':id', data.id);
+	}
+
+	return handler(url, data);
+};
 
 export default class StreamAPI {
-	constructor(type, { endpoints, credentials }) {
+	constructor(type, { endpoints, config, credentials }) {
 		Object.assign(this, { endpoints }, { credentials });
 
 		this.requestStream = new Subject();
@@ -15,8 +28,9 @@ export default class StreamAPI {
 
 		switch (type) {
 			case STREAM_TYPE.HTTP: {
+				this.xhrService = axios.create(config);
 				this.dataStream = this.requestStream
-					.concatMap(data => Observable.fromPromise(xhr(data)))
+					.concatMap(data => Observable.fromPromise(callXHR(this.xhrService, data)))
 					.doOnError(err => this.errorStream.onNext(err))
 					.retry()
 					.share();
