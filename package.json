@@ -1,5 +1,5 @@
 {
-  "name": "leap",
+  "name": "leap-js",
   "version": "0.0.1",
   "description": "reactive data layer library",
   "scripts": {
