@@ -13,16 +13,14 @@
     "type": "git",
     "url": "https://github.com/nikkatalnikov/leap"
   },
-  "contributors": [
-    {
+  "author": {
       "name": "Nik Katalnikov",
       "email": "prometheusaudio@gmail.com"
-    },
-    {
+  },
+  "contributors": [{
       "name": "Dmitriy Shapovalov",
-      "email": "prometheusaudio@gmail.com"
-    }
-  ],
+      "email": ""
+  }],
   "license": "ISC",
   "dependencies": {
     "axios": "^0.9.1",
