@@ -1,6 +1,6 @@
 {
   "name": "leap-js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "reactive data layer library",
   "scripts": {
     "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/bundle.min.js",
