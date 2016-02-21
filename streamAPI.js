@@ -19,6 +19,15 @@ const callXHR = (service, { endpoint, data }) => {
 };
 
 export class StreamAPI {
+	constructor(...args) {
+		const streamInstance = new StreamProvider(...args)
+		this.dataStream = streamInstance.dataStream;
+		this.errorStream = streamInstance.errorStream;
+		this.send = streamInstance.send.bind(streamInstance);
+	}
+}
+
+class StreamProvider {
 	constructor(type, { endpoints, config, credentials }) {
 		Object.assign(this, { endpoints }, { credentials });
 
@@ -28,9 +37,9 @@ export class StreamAPI {
 
 		switch (type) {
 			case STREAM_TYPE.HTTP: {
-				this.xhrService = axios.create(config);
+				const xhrService = axios.create(config);
 				this.dataStream = this.requestStream
-					.concatMap(data => Observable.fromPromise(callXHR(this.xhrService, data)))
+					.concatMap(data => Observable.fromPromise(callXHR(xhrService, data)))
 					.doOnError(err => this.errorStream.onNext(err))
 					.retry()
 					.share();

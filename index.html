@@ -3,11 +3,12 @@
 	<head>
 		<meta charset = "utf-8">
 		<title></title>
+		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 		<h1>Hello</h1>
-		<span id="one"></span>
-		<span id="two"></span>
+		<div id="myData"></div>
+		<div id="notifications"></div>
 	</body>
 	<script type="text/javascript" src="dist/bundle.js"></script>
 	<script>
@@ -53,14 +54,34 @@
 		}
 	}
 
+	var appendArrayData = function(item) {
+		var el = document.createElement("DIV")
+		el.innerHTML = item.text;
+		document.getElementById('myData').appendChild(el);
+	} 
 	var DL = new Leap.StreamAPI('HTTP', {endpoints, config, credentials});
 	DL.dataStream.subscribe(function(res) {
 		console.log('Data Stream:');
 		console.log(res.data);
 	});
+	DL.dataStream.subscribe(function(res) {
+		if (Array.isArray(res.data)) {
+			res.data.forEach(appendArrayData);
+		} else {
+			document.getElementById('myData').innerHTML = res.data.text;
+		}
+	});
 	DL.errorStream.subscribe(function(err) {
 		console.log('Error Stream:');
 		console.error(err);
 	});
+	DL.errorStream.subscribe(function(err) {
+		if (err.statusText) {
+			document.getElementById('notifications').innerHTML = err.statusText;
+		} else {
+			document.getElementById('notifications').innerHTML = err;
+		}
+	});
+
 	</script>
 </html>
