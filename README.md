@@ -12,13 +12,13 @@ TODO:
 
 5. Auth and auto
 
-6. interface type - Emitter or Observable
-
 7. groupByAlias
 
 8. add tests and coverage
 
 9. add uglify
+
+10. add search query syntax
 
 Examples:
 
