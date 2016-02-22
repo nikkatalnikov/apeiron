@@ -7,10 +7,14 @@
 	</head>
 	<body>
 		<h1>Hello</h1>
-		<div id="myData"></div>
+		<button id="populate">Populate random data in DB with "addPost" method</button>
+		<button id="stopPopulating">Stop populating data</button>
+		<ul id="myData"></ul>
 		<div id="notifications"></div>
 	</body>
 	<script type="text/javascript" src="dist/bundle.js"></script>
+	<script type="text/javascript" src="examples/js/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="examples/js/chance.min.js"></script>
 	<script>
 	/*
 		type Type = "HTTP" | "WS" | "COLLECTION"
@@ -54,34 +58,62 @@
 		}
 	}
 
-	var appendArrayData = function(item) {
-		var el = document.createElement("DIV")
-		el.innerHTML = item.text;
-		document.getElementById('myData').appendChild(el);
-	} 
 	var DL = new Leap.StreamAPI('HTTP', {endpoints, config, credentials});
 	DL.dataStream.subscribe(function(res) {
 		console.log('Data Stream:');
 		console.log(res.data);
 	});
-	DL.dataStream.subscribe(function(res) {
-		if (Array.isArray(res.data)) {
-			res.data.forEach(appendArrayData);
-		} else {
-			document.getElementById('myData').innerHTML = res.data.text;
-		}
-	});
+	DL.dataStream.subscribe(insertDataInDOM);
 	DL.errorStream.subscribe(function(err) {
 		console.log('Error Stream:');
 		console.error(err);
 	});
 	DL.errorStream.subscribe(function(err) {
 		if (err.statusText) {
-			document.getElementById('notifications').innerHTML = err.statusText;
+			$('#notifications').text(err.statusText);
 		} else {
-			document.getElementById('notifications').innerHTML = err;
+			$('#notifications').text(err);
 		}
 	});
 
+	var appendObjectData = function(item) {
+		var dataItemString = '';
+		$.each(item, function(key, value) {
+			dataItemString += '<i>' + key + '</i>: <i>' + value + '</i>; ';
+		});
+		$('#myData').append('<li>' + dataItemString + '</li>');
+	}
+	function insertDataInDOM(res) {
+		$('#myData').empty();
+		if (Array.isArray(res.data)) {
+			res.data.forEach(appendObjectData);
+		} else if (typeof res.data === 'object') {
+			appendObjectData(res.data);
+		} else {
+			$('#myData').append('<li>' + res.data + '</li>');
+		}
+	}
+	//Mock data
+	var mockGenerator = function(){
+		 var mockData = {
+		 	text: chance.word(),
+		 	id: chance.natural({min: 7, max: 10000}),
+		 	date: chance.birthday({string: true}),
+		 	name: chance.name(),
+		 	email: chance.email(),
+		 	from: chance.country({ full: true })
+		 }
+		 DL.send('addPost', mockData);
+		 DL.send('getPosts');
+	}
+	var populatingTimeout;
+	var populateData = function() {
+		populatingTimeout = setInterval(mockGenerator, 1000);
+	}
+	var stopPopulatingData = function() {
+		clearInterval(populatingTimeout)
+	}
+	$('#populate').click(populateData);
+	$('#stopPopulating').click(stopPopulatingData);
 	</script>
 </html>

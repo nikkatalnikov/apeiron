@@ -1,4 +1,17 @@
+body {
+	font-family: Helvetica Neue, Helvetica, Arial;
+	font-size: 11px;
+}
 #notifications {
 	background: red;
 	color: white;
+}
+i {
+	font-style: normal;
+}
+#myData li i:nth-child(odd) {
+	color: #808080;
+}
+#myData li i:nth-child(even) {
+	color: #666699;
 }
