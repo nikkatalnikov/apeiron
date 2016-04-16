@@ -1,0 +1,12 @@
+{
+  "name": "examples",
+  "version": "0.0.0",
+  "description": "",
+  "main": "ws-server.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.8.9",
+    "ws": "^1.1.0"
+  }
+}
