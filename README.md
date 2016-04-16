@@ -1,29 +1,33 @@
-TODO:
+TODO (by priority):
 
-0. Implement metaStream (ws connection, HTTP headers/head method?)
+0. Add functional signatures if applicable.
 
-1. HTTP validations
+1. HTTP: validations, GET params, authorization.
 
-2. .fromWebsocket()
+2. WS: .fromWebSocket(ws) + Node example
 
-3. Collection
+3. SSE: .fromSSE(sse) + Node example
 
-4. expose errorStream and dataStream only
+4. MetaStream: (DL ('created', 'disposed'), sse/ws connection, HTTP head method)
 
-5. Auth and auto
+5. HTTP long-polling: DL.poll() / DL.pollUntil(predicate)
 
-7. groupByAlias
+6. Collection: .fromCollection()
 
-8. add tests and coverage
+7. HTTP: DL.extract('ep1','ep2') -> (DL [ep1,ep2], DL $ epn // [ep1, ep2])
 
-9. add uglify
+8. HTTP: DL.groupBy('ep1','ep2') -> (DL [ep1,ep2], DL epn)
 
-10. add search query syntax
+9. add tests and coverage
+
+10. prepare .min.js bundle
+
+11. NodeJS integration: Express, WS, SSE, Redis
 
 Examples:
 
-1. React
+1. DL -> Controller -> Stateless Components (React)
 
-2. Angular 1.5
+2. DL -> Stateless Services -> VM (Angular 1.5)
 
-Architecture guide: async MVC (DL -> Controller -> Viev)
+Architecture guide: async MVC (DL -> Controller -> View)
