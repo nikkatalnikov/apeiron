@@ -5,7 +5,10 @@
   "scripts": {
     "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/bundle.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/bundle.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "run-rest": "json-server --watch examples/db.json",
+    "run-ws": "node examples/ws-server.js",
+    "run-sse": "node examples/sse-server.js"
   },
   "repository": {
     "type": "git",
