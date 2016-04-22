@@ -17,19 +17,20 @@ function sendSSE(req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive'
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*'
   });
 
   var id = (new Date()).toLocaleTimeString();
 
   setInterval(function () {
     constructSSE(res, id, (new Date()).toLocaleTimeString());
-  }, 5000);
+  }, 2000);
 
   constructSSE(res, id, (new Date()).toLocaleTimeString());
 }
 
 function constructSSE(res, id, data) {
   res.write('id: ' + id + '\n');
-  res.write("data: " + data + '\n\n');
+  res.write('data: ' + data + '\n\n');
 }

@@ -1,4 +1,4 @@
-import { HTTPProvider, WSProvider } from './streamProviders';
+import { HTTPProvider, WSProvider, SSEProvider } from './streamProviders';
 import { STREAM_TYPE } from './consts';
 
 export class StreamAPI {
