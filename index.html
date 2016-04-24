@@ -27,19 +27,10 @@
 			console.log(res.type);
 		}
 	});
-	DLWS.dataStream.subscribe(insertDataInDOM);
 	DLWS.errorStream.subscribe(function(err) {
 		console.log('WS Error Stream:');
 		console.error(err);
 	});
-	DLWS.errorStream.subscribe(function(err) {
-		if (err.statusText) {
-			$('#notifications').text(err.statusText);
-		} else {
-			$('#notifications').text(err);
-		}
-	});
-
 
 	var DLSSE = new Leap.StreamAPI('SSE', 'http://localhost:3002/events');
 
@@ -51,17 +42,9 @@
 			console.log(res.type);
 		}
 	});
-	DLSSE.dataStream.subscribe(insertDataInDOM);
 	DLSSE.errorStream.subscribe(function(err) {
 		console.log('SSE Error Stream:');
 		console.error(err);
-	});
-	DLSSE.errorStream.subscribe(function(err) {
-		if (err.statusText) {
-			$('#notifications').text(err.statusText);
-		} else {
-			$('#notifications').text(err);
-		}
 	});
 
 	var credentials = {};

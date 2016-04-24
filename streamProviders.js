@@ -61,27 +61,32 @@ class WSProvider extends StreamProvider {
 
   static fromWebSocket(endpoint, protocol) {
     const ws = new WebSocket(endpoint, protocol);
+    const close = ws.close.bind(ws);
 
     const observable = Observable.create((wsObservable) => {
       ws.onerror = (err) => wsObservable.onError(err);
       ws.onmessage = (data) => wsObservable.onNext(data);
       ws.onopen = (state) => wsObservable.onNext(state);
       ws.onclose = (state) => wsObservable.onNext(state);
-
-      return ws.close.bind(ws);
-    })
+    });
 
     const observer = Observer.create((data) => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(data);
       }
-    })
+    }, 
+    () => console.error('Error: ' + err), 
+    () => close());
 
     return Subject.create(observer, observable);
   }
 
   send(data) {
-    this.service.observer.onNext(data);
+    this.service.onNext(data);
+  }
+
+  close() {
+    this.service.onCompleted();
   }
 }
 
@@ -89,9 +94,9 @@ class SSEProvider extends StreamProvider {
   constructor(type, endpoint, options) {
     super(type, endpoint, options);
 
-    const service = SSEProvider.fromSSE(endpoint, options);
+    this.service = SSEProvider.fromSSE(endpoint, options);
 
-    this.dataStream = service
+    this.dataStream = this.service
       .concatMap(data => Observable.just(data))
       .doOnError(err => this.errorStream.onNext(err))
       .retry()
@@ -100,22 +105,23 @@ class SSEProvider extends StreamProvider {
 
   static fromSSE(endpoint, options) {
     const sse = new EventSource(endpoint, options);
+    const close = sse.close.bind(sse);
 
     const observable = Observable.create((sseObservable) => {
       sse.onerror = (err) => sseObservable.onError(err);
       sse.onmessage = (data) => sseObservable.onNext(data);
       sse.onopen = (state) => sseObservable.onNext(state);
       sse.onclose = (state) => sseObservable.onNext(state);
+    });
+    const observer = Observer.create(
+    () => void 0,
+    () => console.error('Error: ' + err), 
+    () => close());
 
-      return sse.close.bind(sse);
-    })
-
-    return Subject.create(null, observable);
+    return Subject.create(observer, observable);
   }
-
-  send() {
-    void 0;
-    console.warn('the type is void 0 (unit)');
+  close() {
+    this.service.onCompleted();
   }
 }
 
