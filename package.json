@@ -5,7 +5,7 @@
   "scripts": {
     "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/bundle.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/bundle.js",
-    "lint": "eslint .",
+    "lint": "eslint examples/*.js *.js",
     "run-rest": "json-server --watch examples/db.json",
     "run-ws": "node examples/ws-server.js",
     "run-sse": "node examples/sse-server.js"
@@ -32,6 +32,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "eslint": "^1.10.3",
+    "eslint-plugin-react":"^3.16.1",
     "eslint-config-airbnb": "^5.0.0",
     "rx-lite": "^4.0.7",
     "uglify-js": "^2.6.1",

@@ -12,10 +12,16 @@
 		<ul id="myData"></ul>
 		<div id="notifications"></div>
 	</body>
-	<script type="text/javascript" src="dist/bundle.js"></script>
-	<script type="text/javascript" src="examples/js/jquery-2.2.0.min.js"></script>
-	<script type="text/javascript" src="examples/js/chance.min.js"></script>
+	<script type="text/javascript" src="../dist/bundle.js"></script>
+	<script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="js/chance.min.js"></script>
 	<script>
+
+	// var ReactiveCollection = new Leap.StreamAPI('COLLECTION', [1,2,3]);
+
+	// ReactiveCollection.dataStream.subscribe(function(item) {
+	// 	console.log(item);
+	// });
 
 	var DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
 
