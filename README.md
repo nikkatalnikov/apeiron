@@ -11,15 +11,19 @@
 	DL.groupByUrl(url) -> (DL $ [ep1..epn], DL epm)
 	DL.groupByMethod(method) -> (DL $ [ep1..epn], DL epm)
 
-##4. Collection: .fromCollection(), mutation iterator 
-	DL.fromCollection(coll):: coll -> (changedItem, originalItem)
-	BehaviourSubject.getValue() -> coll
+##4. Notification API
+	.create()
+	.send()
+	.close()
 
-##6. Prepare tests with 100% coverage for streamProviders.js
+##5. Prepare tests with 100% coverage for streamProviders.js
 
-##7. prepare npm bundle
+##6. prepare npm bundle
 
-##8. NodeJS integration: Express, WS, SSE, Redis
+##Future 
+1. NodeJS libs/orms integration: ws, redis, mongoose, SSE (custom)
+2. ObservableCollection
+3. MutationObserver
 
 ##Examples:
 	1. DL -> Controller -> Stateless Components (React)

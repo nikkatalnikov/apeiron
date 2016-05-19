@@ -1,4 +1,4 @@
-import { HTTPProvider, WSProvider, SSEProvider, ObservableCollection } from './streamProviders'
+import { HTTPProvider, WSProvider, SSEProvider } from './streamProviders'
 import { STREAM_TYPE } from './consts'
 
 export class StreamAPI {
@@ -18,10 +18,14 @@ export class StreamAPI {
         streamInstance = new SSEProvider(type, ...args)
         this.close = streamInstance.close.bind(streamInstance)
         break
-      case STREAM_TYPE.COLLECTION:
-        streamInstance = new ObservableCollection(...args)
-        this.replay = streamInstance.replay.bind(streamInstance)
-        break
+      // case STREAM_TYPE.COLLECTION:
+      //   streamInstance = new ObservableCollection(...args)
+      //   this.replay = streamInstance.replay.bind(streamInstance)
+      //   break
+      // case STREAM_TYPE.STRUCTURE:
+      //   streamInstance = new MutationObserver(...args)
+      //   this.observableStructure = streamInstance.observableStructure
+      //   break
       default:
         throw new Error(`${type} type of protocol doesn't exist`)
     }

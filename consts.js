@@ -3,4 +3,5 @@ export const STREAM_TYPE = {
   WS: 'WS',
   SSE: 'SSE',
   COLLECTION: 'COLLECTION',
+  STRUCTURE: 'STRUCTURE'
 }

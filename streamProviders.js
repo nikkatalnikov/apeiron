@@ -71,10 +71,10 @@ class WSProvider extends StreamProvider {
     })
 
     const observer = Observer.create((data) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(data)
-      }
-    },
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(data)
+        }
+      },
       (err) => console.error(`Error: ${err}`),
       () => close())
 
@@ -124,6 +124,8 @@ class SSEProvider extends StreamProvider {
     this.service.onCompleted()
   }
 }
+/*
+// TO BE IMPLEMENTED LATER:
 
 class ObservableCollection {
   constructor(arr) {
@@ -144,4 +146,39 @@ class ObservableCollection {
   }
 }
 
-export { HTTPProvider, WSProvider, SSEProvider, ObservableCollection }
+// TO BE IMPLEMENTED LATER:
+
+class MutationObserver {
+  constructor(structure) {
+    this.observables = []
+    this.checkDepth(structure)
+    this.dataStream = this.observables[0].dataStream.merge(this.observables[1].dataStream)
+  }
+  checkDepth(obj) {
+    const hasChildren = Object.keys(obj).length > 0 && obj.constructor === Object
+    if (hasChildren) {
+      console.log(obj)
+      this.observables.push(MutationObserver.fromStructure(obj))
+      Object.keys(obj).forEach((prop) => this.checkDepth(obj[prop]));
+    }
+  }
+  static fromStructure(structure) {
+    const mutationObservable = new BehaviorSubject({ data: structure })
+    const handler = {
+      set: (target, key, value) => {
+        const prev = mutationObservable.getValue()
+        const data = {
+          [key]: value }
+        mutationObservable.onNext({ data, prev: prev.data, action: 'SET' })
+      },
+      deleteProperty: (obj) => {
+        mutationObservable.onNext({ prev: obj, action: 'DELETE' })
+      }
+    };
+    const proxy = new Proxy(structure, handler)
+
+    return { observableStructure: proxy, dataStream: mutationObservable }
+  }
+}
+*/
+export { HTTPProvider, WSProvider, SSEProvider }
