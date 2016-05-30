@@ -1,14 +1,15 @@
 {
   "name": "leap-js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "reactive data layer library",
   "scripts": {
-    "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/bundle.min.js",
-    "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/bundle.js",
+    "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/leap.min.js",
+    "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/leap.js",
     "lint": "eslint examples/*.js *.js",
     "run-rest": "json-server --watch examples/db.json",
     "run-ws": "node examples/ws-server.js",
-    "run-sse": "node examples/sse-server.js"
+    "run-sse": "node examples/sse-server.js",
+    "postinstall": "npm run bundle"
   },
   "repository": {
     "type": "git",
