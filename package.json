@@ -1,7 +1,8 @@
 {
   "name": "leap-js",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "reactive data layer library",
+  "keywords": ["ws", "sse", "http", "rx", "stream", "async", "reactive"],
   "scripts": {
     "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/leap.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/leap.js",

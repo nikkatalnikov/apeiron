@@ -3,7 +3,7 @@ const wss = new WebSocketServer.Server({ port: 3001 })
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-  	const date = (new Date()).toLocaleTimeString();
+    const date = (new Date()).toLocaleTimeString()
     console.log(message)
     ws.send(`Echo: ${date}, ${message}`)
   })
