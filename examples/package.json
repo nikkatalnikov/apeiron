@@ -2,16 +2,20 @@
   "name": "examples",
   "version": "0.0.0",
   "description": "",
-  "main": "ws-server.js",
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "json-server": "^0.8.9",
-    "ws": "^1.1.0",
     "browserify": "^13.0.0",
-    "leap-js": "^0.0.7"
+    "chance": "^1.0.3",
+    "jquery": "^2.2.4",
+    "json-server": "^0.8.9",
+    "leap-js": "^0.0.8",
+    "ws": "^1.1.0"
   },
   "scripts": {
-    "browserify": "browserify example.js > example.bundle.js "
+    "browserify": "browserify example-ws-sse.js > example-ws-sse.bundle.js",
+    "run-rest": "json-server --watch db.json",
+    "run-ws": "node ws-server.js",
+    "run-sse": "node sse-server.js"
   }
 }
