@@ -1,35 +1,3 @@
-var DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
-
-DLWS.dataStream.subscribe(function (res) {
-  console.log('WS Data Stream:');
-  if (res.type === 'message') {
-    console.log(res.data);
-  } else {
-    console.log(res.type);
-  }
-});
-
-DLWS.errorStream.subscribe(function (err) {
-  console.log('WS Error Stream:');
-  console.error(err);
-});
-
-var DLSSE = new Leap.StreamAPI('SSE', 'http://localhost:3002/events');
-
-DLSSE.dataStream.subscribe(function (res) {
-  console.log('SSE Data Stream:');
-  if (res.type === 'message') {
-    console.log(res.data);
-  } else {
-    console.log(res.type);
-  }
-});
-
-DLSSE.errorStream.subscribe(function (err) {
-  console.log('SSE Error Stream:');
-  console.error(err);
-});
-
 var credentials = {};
 var config = {
   baseURL: 'http://localhost:3000'
@@ -116,3 +84,6 @@ var stopPopulatingData = function () {
 }
 $('#populate').click(populateData);
 $('#stopPopulating').click(stopPopulatingData);
+
+
+DL.send('getPosts');
