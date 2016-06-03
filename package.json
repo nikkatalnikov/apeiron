@@ -2,40 +2,52 @@
   "name": "leap-js",
   "version": "0.0.7",
   "description": "reactive data layer library",
-  "keywords": ["ws", "sse", "http", "rx", "stream", "async", "reactive"],
+  "keywords": [
+    "ws",
+    "sse",
+    "http",
+    "rx",
+    "stream",
+    "async",
+    "reactive"
+  ],
   "scripts": {
-    "bundle": "browserify streamAPI.js -t babelify -s Leap | uglifyjs -o dist/leap.min.js",
-    "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o dist/leap.js",
+    "bundle": "browserify streamAPI.js -t babelify -s Leap | derequire > dist/leap.js",
+    "minify": "uglifyjs dist/leap.js > dist/leap.min.js",
+    "watch": "watchify streamAPI.js -t babelify -s Leap -vd | derequire > dist/leap.js",
     "lint": "eslint examples/*.js *.js",
     "run-rest": "json-server --watch examples/db.json",
     "run-ws": "node examples/ws-server.js",
     "run-sse": "node examples/sse-server.js",
-    "postinstall": "npm run bundle"
+    "postinstall": "npm run bundle && npm run minify"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/nikkatalnikov/leap"
   },
   "author": {
-      "name": "Nik Katalnikov",
-      "email": "prometheusaudio@gmail.com"
+    "name": "Nik Katalnikov",
+    "email": "prometheusaudio@gmail.com"
   },
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Dmitriy Shapovalov",
       "email": "boxaldis@gmail.com"
-  }],
+    }
+  ],
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.9.1",
+    "axios": "^0.12.0",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "derequire": "^2.0.3",
     "eslint": "^1.10.3",
-    "eslint-plugin-react":"^3.16.1",
     "eslint-config-airbnb": "^5.0.0",
+    "eslint-plugin-react": "^3.16.1",
     "rx-lite": "^4.0.7",
     "uglify-js": "^2.6.1",
     "watchify": "^3.7.0"
