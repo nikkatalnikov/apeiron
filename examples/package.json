@@ -7,6 +7,11 @@
   "license": "ISC",
   "dependencies": {
     "json-server": "^0.8.9",
-    "ws": "^1.1.0"
+    "ws": "^1.1.0",
+    "browserify": "^13.0.0",
+    "leap-js": "^0.0.7"
+  },
+  "scripts": {
+    "browserify": "browserify example.js > example.bundle.js "
   }
 }
