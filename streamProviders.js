@@ -110,7 +110,6 @@ class SSEProvider extends StreamProvider {
       sse.onerror = (err) => sseObservable.onError(err)
       sse.onmessage = (data) => sseObservable.onNext(data)
       sse.onopen = (state) => sseObservable.onNext(state)
-      sse.onclose = (state) => sseObservable.onNext(state)
     })
     const observer = Observer.create(
       () => void 0,
