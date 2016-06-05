@@ -2,6 +2,7 @@
 	"extends": "airbnb/base",
 	"rules": {
 		"semi": [2, "never"],
-		"quote-props": [1, "as-needed"]
+		"quote-props": [1, "as-needed"],
+		"no-console": 0
 	}
 }
