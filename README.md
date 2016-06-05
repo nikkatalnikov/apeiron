@@ -1,6 +1,11 @@
 ###**LEAP.JS - reactive bindings for IO-actions and more.** 
 Leap is a tiny library written in ES6 with RxJS to provide concise and robust infrastructure for driving **data layer abstractions**: **HTTP**, **SSE**, **WS**, other IO-actions and strictly evaluated data types **as multidirectional reactive streams** (ie. binding IO and Observable/Observer with ContT/StateT monad represented as Rx.Subject and vice versa).
 
+[![Code Climate](https://img.shields.io/codeclimate/github/nikkatalnikov/leap.svg?style=flat-square)](https://codeclimate.com/github/nikkatalnikov/leap)
+[![Latest Stable Version](https://img.shields.io/npm/v/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
+[![License](https://img.shields.io/npm/l/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
+[![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
+
 ####**Install**
 NPM:
 
