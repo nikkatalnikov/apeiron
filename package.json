@@ -15,7 +15,7 @@
     "bundle": "browserify streamAPI.js -t babelify -s Leap | derequire > dist/leap.js",
     "minify": "uglifyjs dist/leap.js > dist/leap.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o 'derequire > dist/leap.js'",
-    "lint": "eslint examples/*.js *.js",
+    "lint": "eslint *.js",
     "postinstall": "npm run bundle && npm run minify"
   },
   "repository": {

@@ -4,21 +4,21 @@ Leap is a tiny library written in ES6 with RxJS to provide concise and robust in
 ####**Install**
 NPM:
 
-`npm i leap-js -S`
+	npm i leap-js -S
 
 then hook up Leap.js into project:
 
 ES6:
 
-`import { StreamAPI } from 'leap-js';`
+	import { StreamAPI } from 'leap-js'
 
 Node / Browserify:
 
-`const StreamAPI = require('leap-js').StreamAPI;`
+	const StreamAPI = require('leap-js').StreamAPI
 
 UMD:
 
-`<script src="leap/dist/leap.min.js"></script>`
+	<script src="leap/dist/leap.min.js"></script>
 
 ####**Examples**
 (coming soon)
@@ -33,12 +33,12 @@ UMD:
 	DL.groupByMethod(method) -> (DL $ [ep1..epn], DL epm)
 4. Prepare tests with 100% coverage for streamProviders.js
 
-
 ####**What's next**
 1. Notification API
-2. NodeJS libs/orms integration: ws, redis, mongoose, SSE (custom)
-3. ObservableCollection
-4. MutationObserver
+2. NodeJS express integration: to be discussed
+3. NodeJS libs/orms integration: ws, redis, mongoose, SSE (custom)
+4. List a -> ObservableCollection (List a)
+5. Object {a} -> MutationObserver (Object {a})
 
 ####**Future exmaples**
 1. DL -> Controller -> Stateless Components (React)
