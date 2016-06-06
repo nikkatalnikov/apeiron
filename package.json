@@ -16,6 +16,7 @@
     "minify": "uglifyjs dist/leap.js > dist/leap.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o 'derequire > dist/leap.js'",
     "lint": "eslint *.js",
+    "test": "echo Coming soon...",
     "postinstall": "npm run bundle && npm run minify"
   },
   "repository": {
