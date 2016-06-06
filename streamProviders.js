@@ -73,7 +73,7 @@ class WSProvider extends StreamProvider {
     const observer = Observer.create((data) => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(data)
-      }},
+      } },
       (err) => console.error(`Error: ${err}`),
       () => close())
 
