@@ -44,6 +44,13 @@ class HTTPProvider extends StreamProvider {
       this.errorStream.onNext(new Error(`${alias} endpoint doesn't exist`))
     }
   }
+
+  sendMany(list, delay = 0) {
+    Observable
+      .from(list)
+      .concatMap(x => Observable.just(x).delay(delay))
+      .subscribe(x => this.send(x))
+  }
 }
 
 class WSProvider extends StreamProvider {
@@ -72,7 +79,7 @@ class WSProvider extends StreamProvider {
 
     const observer = Observer.create((data) => {
       if (ws.readyState === WebSocket.OPEN) {
-        ws.send(data)
+        ws.send(JSON.stringify(data))
       } },
       (err) => console.error(`Error: ${err}`),
       () => close())
@@ -82,6 +89,13 @@ class WSProvider extends StreamProvider {
 
   send(data) {
     this.service.onNext(data)
+  }
+
+  sendMany(list, delay = 0) {
+    Observable
+      .from(list)
+      .concatMap(x => Observable.just(x).delay(delay))
+      .subscribe(x => this.send(x))
   }
 
   close() {

@@ -12,6 +12,7 @@ export class StreamAPI {
       case STREAM_TYPE.WS:
         streamInstance = new WSProvider(type, ...args)
         this.send = streamInstance.send.bind(streamInstance)
+        this.sendMany = streamInstance.sendMany.bind(streamInstance)
         this.close = streamInstance.close.bind(streamInstance)
         break
       case STREAM_TYPE.SSE:

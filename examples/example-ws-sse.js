@@ -3,7 +3,7 @@ var DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
 var DLSSE = new Leap.StreamAPI('SSE', 'http://localhost:3002/events');
 
 DLWS.dataStream
-  .take(3)
+  .take(10)
   .doOnCompleted(function () {
     DLWS.close();
     console.log('DLWS stopped');
@@ -32,7 +32,7 @@ DLWS.errorStream.subscribe(function (err) {
 });
 
 DLSSE.dataStream
-  .take(6)
+  .take(10)
   .doOnCompleted(function () {
     DLSSE.close();
     console.log('DLSSE stopped');
@@ -56,3 +56,10 @@ DLSSE.errorStream.subscribe(function (err) {
 function insertDataInDOM(type, res) {
   $('#myData').append('<li>' + type + ' ' + (res.data || res.type) + '</li>');
 }
+
+DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}], 1000);
+
+setTimeout(function(){
+  DLWS.sendMany([{data:'x'},{data:'y'},{data:'z'}], 100);
+}, 3000)
+

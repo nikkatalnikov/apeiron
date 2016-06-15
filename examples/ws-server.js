@@ -4,8 +4,7 @@ const wss = new WebSocketServer.Server({ port: 3001 })
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     const date = (new Date()).toLocaleTimeString()
-    console.log(message)
-    ws.send(`Echo: ${date}, ${message}`)
+    ws.send(`Echo: ${date}, ${JSON.parse(message).data}`)
   })
 
   ws.on('close', () => console.log('closed'))
