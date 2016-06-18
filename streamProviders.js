@@ -49,7 +49,7 @@ class HTTPProvider extends StreamProvider {
     Observable
       .from(list)
       .concatMap(x => Observable.of(x).delay(delay))
-      .subscribe([alias, data] => this.send(alias, data))
+      .subscribe(([alias, data]) => this.send(alias, data))
   }
 }
 
