@@ -1,6 +1,6 @@
 {
   "name": "leap-js",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
@@ -27,10 +27,12 @@
     "name": "Nik Katalnikov",
     "email": "prometheusaudio@gmail.com"
   },
-  "contributors": [{
-    "name": "Dmitriy Shapovalov",
-    "email": "boxaldis@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Dmitriy Shapovalov",
+      "email": "boxaldis@gmail.com"
+    }
+  ],
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.4.5",
@@ -48,6 +50,6 @@
   },
   "dependencies": {
     "axios": "^0.12.0",
-    "rx-lite": "^4.0.7"
+    "rxjs": "^5.0.0-beta.9"
   }
 }

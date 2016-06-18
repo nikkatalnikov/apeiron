@@ -4,7 +4,11 @@ var DLSSE = new Leap.StreamAPI('SSE', 'http://localhost:3002/events');
 
 DLWS.dataStream
   .take(10)
-  .doOnCompleted(function () {
+  .do(function () {
+    // body...
+  }, function() {
+     // body...
+  }, function () {
     DLWS.close();
     console.log('DLWS stopped');
   })
@@ -33,7 +37,11 @@ DLWS.errorStream.subscribe(function (err) {
 
 DLSSE.dataStream
   .take(10)
-  .doOnCompleted(function () {
+  .do(function () {
+    // body...
+  }, function() {
+     // body...
+  }, function () {
     DLSSE.close();
     console.log('DLSSE stopped');
   })

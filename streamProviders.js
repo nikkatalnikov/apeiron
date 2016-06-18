@@ -1,4 +1,4 @@
-import { Observer, Observable, Subject } from 'rx-lite'
+import { Subscriber, Observable, Subject } from 'rxjs'
 import axios from 'axios'
 
 class StreamProvider {
@@ -16,7 +16,7 @@ class HTTPProvider extends StreamProvider {
 
     this.dataStream = this.requestStream
       .concatMap(data => Observable.fromPromise(HTTPProvider.callXHR(config, data)))
-      .doOnError(err => this.errorStream.onNext(err))
+      .do(() => void 0, err => this.errorStream.next(err))
       .retry()
       .share()
   }
@@ -39,16 +39,16 @@ class HTTPProvider extends StreamProvider {
   send(alias, data) {
     const endpoint = this.endpoints[alias]
     if (endpoint) {
-      this.requestStream.onNext({ endpoint, data })
+      this.requestStream.next({ endpoint, data })
     } else {
-      this.errorStream.onNext(new Error(`${alias} endpoint doesn't exist`))
+      this.errorStream.next(new Error(`${alias} endpoint doesn't exist`))
     }
   }
 
   sendMany(list, delay = 0) {
     Observable
       .from(list)
-      .concatMap(x => Observable.just(x).delay(delay))
+      .concatMap(x => Observable.of(x).delay(delay))
       .subscribe(x => this.send(x))
   }
 }
@@ -60,8 +60,8 @@ class WSProvider extends StreamProvider {
     this.service = WSProvider.fromWebSocket(endpoint, protocol)
 
     this.dataStream = this.service
-      .concatMap(data => Observable.just(data))
-      .doOnError(err => this.errorStream.onNext(err))
+      .concatMap(data => Observable.of(data))
+      .do(() => void 0, err => this.errorStream.next(err))
       .retry()
       .share()
   }
@@ -71,13 +71,13 @@ class WSProvider extends StreamProvider {
     const close = ws.close.bind(ws)
 
     const observable = Observable.create((wsObservable) => {
-      ws.onerror = (err) => wsObservable.onError(err)
-      ws.onmessage = (data) => wsObservable.onNext(data)
-      ws.onopen = (state) => wsObservable.onNext(state)
-      ws.onclose = (state) => wsObservable.onNext(state)
+      ws.onerror = (err) => wsObservable.error(err)
+      ws.onmessage = (data) => wsObservable.next(data)
+      ws.onopen = (state) => wsObservable.next(state)
+      ws.onclose = (state) => wsObservable.next(state)
     })
 
-    const observer = Observer.create((data) => {
+    const observer = Subscriber.create((data) => {
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(data))
       } },
@@ -88,18 +88,18 @@ class WSProvider extends StreamProvider {
   }
 
   send(data) {
-    this.service.onNext(data)
+    this.service.next(data)
   }
 
   sendMany(list, delay = 0) {
     Observable
       .from(list)
-      .concatMap(x => Observable.just(x).delay(delay))
+      .concatMap(x => Observable.of(x).delay(delay))
       .subscribe(x => this.send(x))
   }
 
   close() {
-    this.service.onCompleted()
+    this.service.complete()
   }
 }
 
@@ -110,8 +110,8 @@ class SSEProvider extends StreamProvider {
     this.service = SSEProvider.fromSSE(endpoint, options)
 
     this.dataStream = this.service
-      .concatMap(data => Observable.just(data))
-      .doOnError(err => this.errorStream.onNext(err))
+      .concatMap(data => Observable.of(data))
+      .do(() => void 0, err => this.errorStream.next(err))
       .retry()
       .share()
   }
@@ -121,11 +121,11 @@ class SSEProvider extends StreamProvider {
     const close = sse.close.bind(sse)
 
     const observable = Observable.create((sseObservable) => {
-      sse.onerror = (err) => sseObservable.onError(err)
-      sse.onmessage = (data) => sseObservable.onNext(data)
-      sse.onopen = (state) => sseObservable.onNext(state)
+      sse.onerror = (err) => sseObservable.error(err)
+      sse.onmessage = (data) => sseObservable.next(data)
+      sse.onopen = (state) => sseObservable.next(state)
     })
-    const observer = Observer.create(
+    const observer = Subscriber.create(
       () => void 0,
       (err) => console.error(`Error: ${err}`),
       () => close())
@@ -133,7 +133,7 @@ class SSEProvider extends StreamProvider {
     return Subject.create(observer, observable)
   }
   close() {
-    this.service.onCompleted()
+    this.service.complete()
   }
 }
 /*
@@ -153,8 +153,8 @@ class ObservableCollection {
   replay(delay = 0) {
     Observable
       .from(this.arr)
-      .concatMap(x => Observable.just(x).delay(delay))
-      .subscribe(x => this.dataStream.onNext(x))
+      .concatMap(x => Observable.of(x).delay(delay))
+      .subscribe(x => this.dataStream.next(x))
   }
 }
 
@@ -181,10 +181,10 @@ class MutationObserver {
         const prev = mutationObservable.getValue()
         const data = {
           [key]: value }
-        mutationObservable.onNext({ data, prev: prev.data, action: 'SET' })
+        mutationObservable.next({ data, prev: prev.data, action: 'SET' })
       },
       deleteProperty: (obj) => {
-        mutationObservable.onNext({ prev: obj, action: 'DELETE' })
+        mutationObservable.next({ prev: obj, action: 'DELETE' })
       }
     };
     const proxy = new Proxy(structure, handler)
