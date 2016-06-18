@@ -8,6 +8,7 @@ export class StreamAPI {
       case STREAM_TYPE.HTTP:
         streamInstance = new HTTPProvider(type, ...args)
         this.send = streamInstance.send.bind(streamInstance)
+        this.sendMany = streamInstance.sendMany.bind(streamInstance)
         break
       case STREAM_TYPE.WS:
         streamInstance = new WSProvider(type, ...args)
