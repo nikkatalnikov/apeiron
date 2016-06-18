@@ -1,6 +1,6 @@
 {
   "name": "leap-js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
@@ -27,14 +27,19 @@
     "name": "Nik Katalnikov",
     "email": "prometheusaudio@gmail.com"
   },
-  "contributors": [
-    {
-      "name": "Dmitriy Shapovalov",
-      "email": "boxaldis@gmail.com"
-    }
-  ],
+  "contributors": [{
+    "name": "Dmitriy Shapovalov",
+    "email": "boxaldis@gmail.com"
+  }],
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^2.11.1",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "axios": "^0.12.0",
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-polyfill": "^6.3.14",
@@ -42,14 +47,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "derequire": "^2.0.3",
-    "eslint": "^2.11.1",
-    "eslint-config-airbnb-base": "^3.0.1",
-    "eslint-plugin-import": "^1.8.1",
-    "uglify-js": "^2.6.1",
-    "watchify": "^3.7.0"
-  },
-  "dependencies": {
-    "axios": "^0.12.0",
-    "rxjs": "^5.0.0-beta.9"
+    "rxjs": "^5.0.0-beta.9",
+    "uglify-js": "^2.6.1"
   }
 }
