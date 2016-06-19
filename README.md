@@ -29,8 +29,148 @@ UMD:
 
 	<script src="leap/dist/leap.min.js"></script>
 
-####**Examples**
-(coming soon)
+####**API**
+Import Leap:
+
+	import { StreamAPI } from 'leap-js'
+
+Create streamer instance with following data structures:
+
+	const Streamer = new Leap.StreamAPI(TYPE, OPTIONS);
+
+	data TYPE = "HTTP" | "WS" | "SSE"
+
+	data OPTIONS = 
+		HTTPOptions {
+			credentials :: Credentials, 
+			config :: AxiosConfig, 
+			endpoints :: LeapEndpoints
+		} | 
+		WSSSEOptions {
+			endpoint :: Url,
+			withCredentials: Bool
+		}
+
+API: 
+	
+	Streamer.dataStream :: Observable a
+	Streamer.errorStream :: Observable a
+	Streamer.send :: data -> IO () // for HTTP and WS
+	Streamer.sendMany :: [data] -> IO () // for HTTP and WS
+	Streamer.close :: IO () // for SSE and WS
+
+####**Examples HTTP**
+Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
+
+	const credentials = {};
+	const config = {
+	  baseURL: 'http://localhost:3000'
+	};
+
+Add endpoints declaratively:
+
+	const endpoints = {
+	  removePost: {
+	    url: '/posts/:id',
+	    method: 'delete'
+	  },
+	  addPost: {
+	    url: '/posts',
+	    method: 'post'
+	  },
+	  getPosts: {
+	    url: '/posts',
+	    method: 'get'
+	  },
+	  getPost: {
+	    url: '/posts/:id',
+	    method: 'get'
+	  },
+	  editPost: {
+	    url: '/posts/:id',
+	    method: 'put'
+	  }
+	}
+
+Create Leap instance:
+
+	const Leap = require('leap-js');
+	const DL = new Leap.StreamAPI('HTTP', { endpoints, config, credentials });
+
+Run REST API server and add subscription:
+
+	DL.dataStream.subscribe(res => {
+	  console.log('Data Stream:');
+	  console.log(res.data);
+	});
+
+	DL.dataStream.subscribe(insertDataInDOM);
+	
+	DL.errorStream.subscribe(err => {
+	  console.log('Error Stream:');
+	  console.error(err);
+	});
+
+	DL.errorStream.subscribe(err => {
+	  if (err.statusText) {
+	    $('#notifications').text(err.statusText);
+	  } else {
+	    $('#notifications').text(err);
+	  }
+	});
+
+	DL.errorStream.subscribe(err => {
+	  console.log('SSE Error Stream:');
+	  console.error(err);
+	});
+
+
+Senders example:
+	
+	DL.send('getPosts');
+	DL.send('getPost', {id:60});
+	DL.sendMany([['getPosts', {id: 1}],['getPosts', {id: 2}]]);
+
+
+####**Examples WS/SSE**
+Create Leap instance:
+
+	const Leap = require('leap-js');
+	const DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
+
+Run server and add subscription:
+
+	DLWS.dataStream
+		.take(10)
+		.do(() => void 0, () => void 0, () => {
+			DLWS.close();
+			console.log('DLWS stopped');
+		})
+		.subscribe((res) => {
+			console.log('WS Data Stream:');
+			res.type === 'message' ?
+			  console.log(res.data) :
+			  console.log(res.type);
+		});
+
+	DLWS.errorStream
+		.subscribe(err => {
+		  console.log('SSE Error Stream:');
+		  console.error(err);
+		});
+
+
+Senders example:
+	
+	DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}], 1000);
+
+	setTimeout(() => {
+	  DLWS.send({data:'x'});
+	}, 3000)
+
+Same way works for SSE.
+
+Check more exmaples in /exmaples folder
 
 ####**TODO (by priority)**
 
