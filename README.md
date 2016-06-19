@@ -56,7 +56,7 @@ API:
 	Streamer.dataStream :: Observable a
 	Streamer.errorStream :: Observable a
 	Streamer.send :: data -> IO () // for HTTP and WS
-	Streamer.sendMany :: [data] -> IO () // for HTTP and WS
+	Streamer.sendMany :: [data] -> Maybe delay -> IO () // for HTTP and WS
 	Streamer.close :: IO () // for SSE and WS
 
 ####**Examples HTTP**
