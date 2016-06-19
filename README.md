@@ -34,19 +34,13 @@ UMD:
 
 ####**TODO (by priority)**
 
-0. HTTP sugar: AXIOS validations, AXIOS GET params, AXIOS authorization.
+0. HTTPS / WSS check
 
-1. sendMany(data, interval) for HTTP and / SSE/WS.
-	
-	sendMany:: DL -> sendData -> maybeInterval -> IO () // sequence on list - concatMap
-	
-	sendManyC:: DL -> sendData -> IO () // concurrent on IO - flatMap
-
-2. HTTP long-polling:  
+1. HTTP long-polling:  
 
 	DL.poll(data, intreval, times) / DL.pollUntil(data, intreval, predicate).
 
-3. HTTP: 
+2. HTTP: 
 	
 	DL.groupByName('ep1','ep2') -> (DL $ [ep1,ep2], DL epm)
 	
@@ -54,7 +48,9 @@ UMD:
 	
 	DL.groupByMethod(method) -> (DL $ [ep1..epn], DL epm)
 
-4. Prepare tests with 100% coverage for streamProviders.js
+3. Prepare tests with 100% coverage for streamProviders.js
+
+4. Check browser support
 
 ####**What's next**
 1. Notification API
