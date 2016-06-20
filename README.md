@@ -172,6 +172,9 @@ Same way works for SSE.
 
 Check more exmaples in /exmaples folder
 
+####**License**
+ISC
+
 ####**TODO (by priority)**
 
 0. HTTPS / WSS check
