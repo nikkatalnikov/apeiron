@@ -1,5 +1,6 @@
 import { Subscriber, Observable, Subject } from 'rxjs'
 import axios from 'axios'
+import { StreamAPI } from './streamAPI'
 
 class StreamProvider {
   constructor(type, ...args) {
@@ -10,7 +11,7 @@ class StreamProvider {
 
 class HTTPProvider extends StreamProvider {
   constructor(type, { endpoints, config, credentials }) {
-    super(type, { endpoints, credentials })
+    super(type, { endpoints, config, credentials })
 
     this.requestStream = new Subject()
 
@@ -50,6 +51,47 @@ class HTTPProvider extends StreamProvider {
       .from(list)
       .concatMap(x => Observable.of(x).delay(delay))
       .subscribe(([alias, data]) => this.send(alias, data))
+  }
+
+  groupByMethod(method) {
+    const endpoints = Object
+      .keys(this.endpoints)
+      .filter(x => this.endpoints[x].method === method)
+
+    return this.groupByName(...endpoints)
+  }
+
+  groupByUrl(url) {
+    const endpoints = Object
+      .keys(this.endpoints)
+      .filter(x => this.endpoints[x].url === url)
+
+    return this.groupByName(...endpoints)
+  }
+
+  groupByName(...newEndpoints) {
+    if (!newEndpoints.length) {
+      this.errorStream.next(new Error('endpoints must be provided'))
+      throw new Error('endpoints must be provided')
+    }
+
+    const endpoints = newEndpoints
+      .map(x => {
+        if (this.endpoints[x]) {
+          return {
+            [x]: this.endpoints[x],
+          }
+        }
+        this.errorStream.next(new Error(`endpoint ${x} is not valid`))
+        throw new Error(`endpoint ${x} is not valid`)
+      })
+      .reduceRight((x, acc) => Object.assign(acc, x), {})
+
+    return new StreamAPI(this.type, {
+      endpoints,
+      config: this.config,
+      credentials: this.credentials,
+    })
   }
 }
 

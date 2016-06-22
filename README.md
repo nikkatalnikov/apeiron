@@ -36,7 +36,10 @@ Import Leap:
 
 Create streamer instance with following data structures:
 
-	const Streamer = new Leap.StreamAPI(TYPE, OPTIONS);
+	StreamAPI :: TYPE -> OPTIONS -> Streamer
+	
+	-- JS: const Streamer = new StreamAPI(TYPE, OPTIONS);
+	-- notice that args are not curried.
 
 	data TYPE = "HTTP" | "WS" | "SSE"
 
@@ -51,13 +54,28 @@ Create streamer instance with following data structures:
 			withCredentials: Bool
 		}
 
-API: 
-	
-	Streamer.dataStream :: Observable a
-	Streamer.errorStream :: Observable a
-	Streamer.send :: data -> IO () // for HTTP and WS
-	Streamer.sendMany :: [data] -> Maybe delay -> IO () // for HTTP and WS
-	Streamer.close :: IO () // for SSE and WS
+API:
+
+	-- consider all above as curried with partially applied Streamer 
+	-- JS: Streamer.dataStream ...
+
+	dataStream :: Observable a
+	errorStream :: Observable a
+	send :: data -> IO () // for HTTP and WS
+	sendMany :: [data] -> Maybe delay -> IO () // for HTTP and WS
+	close :: IO () // for SSE and WS
+
+	-- Group API - HTTP only
+	-- creates new Streamer instance with the endpoints matched by:
+	-- name (multiple args) / url (single arg) / method (single arg)
+
+	-- JS: Streamer.groupByName('ep1','ep2',...'epN')
+	groupByName :: [ep] -> Streamer
+	groupByName [ep] = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
+			where matchedEps = filter pred (endpoints Streamer)
+
+	groupByUrl :: Url -> Streamer
+	groupByMethod :: Method -> Streamer
 
 ####**Examples HTTP**
 Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
@@ -94,8 +112,8 @@ Add endpoints declaratively:
 
 Create Leap instance:
 
-	const Leap = require('leap-js');
-	const DL = new Leap.StreamAPI('HTTP', { endpoints, config, credentials });
+	const StreamAPI = require('leap-js').StreamAPI;
+	const DL = new StreamAPI('HTTP', { endpoints, config, credentials });
 
 Run REST API server and add subscription:
 
@@ -135,8 +153,8 @@ Senders example:
 ####**Examples WS/SSE**
 Create Leap instance:
 
-	const Leap = require('leap-js');
-	const DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
+	const StreamAPI = require('leap-js').StreamAPI;
+	const DLWS = new StreamAPI('WS', 'ws://localhost:3001');
 
 Run server and add subscription:
 
@@ -181,19 +199,11 @@ ISC
 
 1. HTTP long-polling:  
 
-	DL.poll(data, intreval, times) / DL.pollUntil(data, intreval, predicate).
+	DL.poll(data, intreval, times) / DL.pollUntil(data, intreval, predicate).	
 
-2. HTTP: 
-	
-	DL.groupByName('ep1','ep2') -> (DL $ [ep1,ep2], DL epm)
-	
-	DL.groupByUrl(url) -> (DL $ [ep1..epn], DL epm)
-	
-	DL.groupByMethod(method) -> (DL $ [ep1..epn], DL epm)
+2. Prepare tests with 100% coverage for streamProviders.js
 
-3. Prepare tests with 100% coverage for streamProviders.js
-
-4. Check browser support
+3. Check browser support
 
 ####**What's next**
 1. Notification API

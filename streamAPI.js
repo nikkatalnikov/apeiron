@@ -9,6 +9,10 @@ export class StreamAPI {
         streamInstance = new HTTPProvider(type, ...args)
         this.send = streamInstance.send.bind(streamInstance)
         this.sendMany = streamInstance.sendMany.bind(streamInstance)
+        // group API
+        this.groupByName = streamInstance.groupByName.bind(streamInstance)
+        this.groupByMethod = streamInstance.groupByMethod.bind(streamInstance)
+        this.groupByUrl = streamInstance.groupByUrl.bind(streamInstance)
         break
       case STREAM_TYPE.WS:
         streamInstance = new WSProvider(type, ...args)
