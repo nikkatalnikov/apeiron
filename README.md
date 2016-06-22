@@ -59,12 +59,18 @@ API:
 	-- consider all above as curried with partially applied Streamer 
 	-- JS: Streamer.dataStream ...
 
+	-- common
 	dataStream :: Observable a
 	errorStream :: Observable a
-	send :: data -> IO () // for HTTP and WS
-	sendMany :: [data] -> Maybe delay -> IO () // for HTTP and WS
-	close :: IO () // for SSE and WS
 
+	-- for HTTP and WS
+	send :: data -> IO ()
+	sendMany :: [data] -> Maybe delay -> IO ()
+	
+	-- for SSE and WS
+	close :: IO ()
+
+	
 	-- Group API - HTTP only
 	-- creates new Streamer instance with the endpoints matched by:
 	-- name (multiple args) / url (single arg) / method (single arg)
