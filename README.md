@@ -199,17 +199,33 @@ Check more exmaples in /exmaples folder
 ####**License**
 ISC
 
-####**TODO (by priority)**
+####**TODO (Beta-1 release)**
 
-0. HTTPS / WSS check
+CLIENT (ClientAPI)
 
-1. HTTP long-polling:  
+	1. HTTPS check
+	2. HTTP query params
+	3. SSE with credentials check
+	4. WSS check
+	5. WS/SSE reconnect: Bool
+	6. WS/SSE buffer messages until opened
+	7. SSE onclose
 
-	DL.poll(data, intreval, times) / DL.pollUntil(data, intreval, predicate).	
+####**TODO (Beta-2 release)**
 
-2. Prepare tests with 100% coverage for streamProviders.js
+CLIENT (ClientAPI)
 
-3. Check browser support
+	1. HTTP.poll
+	2. HTTP.pollUntil
+	3. Notification API
+
+SERVER (ServerAPI)
+
+	1. SSE custom
+	2. WS ws
+	3. Regis redis
+	4. Mongo mongodb
+
 
 ####**What's next**
 1. Notification API
