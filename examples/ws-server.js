@@ -7,7 +7,7 @@ wss.on('connection', (ws) => {
     ws.send(`Echo: ${date}, ${JSON.parse(message).data}`)
   })
 
-  ws.on('close', () => console.log('closed'))
+  ws.on('close', (...args) => console.log(args, 'closed'))
 
   ws.send('i am started 1')
   setTimeout(() => ws.send('i am started 2'), 2000)

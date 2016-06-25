@@ -1,7 +1,7 @@
 ![alt text](https://github.com/nikkatalnikov/leap/raw/master/media/logo.png "LEAP.JS")
 
 ###**LEAP.JS - reactive bindings for IO-actions and more.** 
-Leap is a tiny library written in ES6 with RxJS to provide concise and robust infrastructure for driving **data layer abstractions**: **HTTP**, **SSE**, **WS**, other IO-actions and strictly evaluated data types **as multidirectional reactive streams** (ie. binding IO and Observable/Observer with Rx.Subject and vice versa).
+Leap is a tiny library written in ES6 with RxJS to provide concise and robust infrastructure for driving **data layer abstractions**: **HTTP**, **SSE**, **WS**, other IO-actions **as multidirectional reactive streams** (ie. binding IO and Observable/Observer with Rx.Subject and vice versa).
 
 [![Build Status](https://img.shields.io/travis/nikkatalnikov/leap/master.svg?style=flat-square)](https://travis-ci.org/nikkatalnikov/leap)
 [![Code Climate](https://img.shields.io/codeclimate/github/nikkatalnikov/leap.svg?style=flat-square)](https://codeclimate.com/github/nikkatalnikov/leap)
@@ -9,6 +9,35 @@ Leap is a tiny library written in ES6 with RxJS to provide concise and robust in
 [![Dependency Status](https://img.shields.io/david/nikkatalnikov/leap.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/leap)
 [![devDependency Status](https://img.shields.io/david/dev/nikkatalnikov/leap.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/leap#info=devDependencies)
 [![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
+
+####**Motivation**
+Why should you prefer Leap over rxjsDom? There are several reasons (WIP for some features, check changelog).
+
+**LEAP is not just a syntactic sugar. It is clever, semantically clear abstraction.**
+* Leap provides unified and simpler API for IO of any origin.
+* Leap is accurate in terms of app architecture semantics: any IO is implied to be treated with Leap, which enforces separation of concerns based on data TYPE.
+* As a result, barrier for entry into Leap is lower: you may have no reactive or Haskell experience to operate monadic operation of **IO a** binding to **Stream a** quasi-impertively as instances with methods.
+* For simple or small apps full RxJS may be an overhead (see above).
+* Leap implies good architecture practices: Model layer isolation, Model immutability, flattened dataStream and errorStream, radical composability, etc.
+* Leap has richer API both on HTTP and WS/SSE written in more functional style.
+* **Leap plays great with RxJS** - dataStream and errorStream are merely RxJS Observables.
+
+**HTTP features:**
+* Leap HTTP relies on Axios library, which has better API than rxjsDom.
+* Leap HTTP endpoints config is declarative - you may think of it as dual to View framework router.
+* On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. See **GroupBy API**
+
+**WS features:**
+* Leap WS automatically tries to reconnect.
+* Leap WS handles WS life cycle for open, close, and error consistently - bound to dataStream/errorStream Observables and send/sendMany API.
+* Leap WS send close command to the server when completed is called.
+* Leap WS enforces a single instance of a socket regardless of the number of subscriptions.
+* Leap WS buffers messages until underlying socket isn't open and then sends them asynchronously when it does open.
+
+**ALSO:**
+
+* Leap's code is shorter and more human readable than rxjsDom, which grants better debugging experience.
+* Leap's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
 
 ####**Install**
 NPM:
@@ -45,11 +74,14 @@ Create streamer instance with following data structures:
 
 	data OPTIONS = 
 		HTTPOptions {
-			credentials :: Credentials, 
 			config :: AxiosConfig, 
-			endpoints :: LeapEndpoints
+			endpoints :: LeapEndpointsHash
 		} | 
-		WSSSEOptions {
+		WSOptions {
+			endpoint :: Url,
+			protocol :: Protocol | [Protocol]
+		} |
+		SSEOptions {
 			endpoint :: Url,
 			withCredentials: Bool
 		}
@@ -225,14 +257,6 @@ SERVER (ServerAPI)
 	2. WS ws
 	3. Regis redis
 	4. Mongo mongodb
-
-
-####**What's next**
-1. Notification API
-2. NodeJS express integration: to be discussed
-3. NodeJS libs/orms integration: ws, redis, mongoose, SSE (custom)
-4. List a -> ObservableCollection (List a)
-5. Object {a} -> MutationObserver (Object {a})
 
 ####**Future exmaples**
 1. DL -> Controller -> Stateless Components (React)

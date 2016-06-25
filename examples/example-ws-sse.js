@@ -10,14 +10,13 @@ DLWS.dataStream
      // body...
   }, function () {
     DLWS.close();
-    console.log('DLWS stopped');
   })
   .subscribe(function (res) {
     console.log('WS Data Stream:');
     res.type === 'message' ?
       console.log(res.data) :
       console.log(res.type);
-  });
+  }, () => void 0, () =>  console.log('DLWS stopped'));
 
 DLWS.dataStream.subscribe(function (res) {
   insertDataInDOM('WS', res)
@@ -43,14 +42,13 @@ DLSSE.dataStream
      // body...
   }, function () {
     DLSSE.close();
-    console.log('DLSSE stopped');
   })
   .subscribe(function (res) {
     console.log('SSE Data Stream:');
     res.type === 'message' ?
       console.log(res.data) :
       console.log(res.type);
-  });
+  }, () => void 0, () =>  console.log('DLSSE stopped'));
 
 DLSSE.dataStream.subscribe(function (res) {
   insertDataInDOM('SSE', res)

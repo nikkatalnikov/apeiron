@@ -10,8 +10,8 @@ class StreamProvider {
 }
 
 class HTTPProvider extends StreamProvider {
-  constructor(type, { endpoints, config, credentials }) {
-    super(type, { endpoints, config, credentials })
+  constructor(type, { endpoints, config }) {
+    super(type, { endpoints, config })
 
     this.requestStream = new Subject()
 
@@ -89,8 +89,7 @@ class HTTPProvider extends StreamProvider {
 
     return new StreamAPI(this.type, {
       endpoints,
-      config: this.config,
-      credentials: this.credentials,
+      config: this.config
     })
   }
 }

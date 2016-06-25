@@ -1,4 +1,3 @@
-var credentials = {};
 var config = {
   baseURL: 'http://localhost:3000'
 };
@@ -26,7 +25,7 @@ var endpoints = {
   }
 }
 
-var DL = new Leap.StreamAPI('HTTP', { endpoints, config, credentials });
+var DL = new Leap.StreamAPI('HTTP', { endpoints: endpoints, config: config });
 DL.dataStream.subscribe(function (res) {
   console.log('Data Stream:');
   console.log(res.data);
