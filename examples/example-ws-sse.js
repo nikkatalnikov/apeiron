@@ -9,7 +9,7 @@ DLWS.dataStream
   }, function() {
      // body...
   }, function () {
-    DLWS.close();
+    DLWS.close(1000, 'Enough for today');
   })
   .subscribe(function (res) {
     console.log('WS Data Stream:');
@@ -63,7 +63,9 @@ function insertDataInDOM(type, res) {
   $('#myData').append('<li>' + type + ' ' + (res.data || res.type) + '</li>');
 }
 
-DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}], 1000);
+DLWS.send({data:'1'});
+DLWS.send({data:'02'});
+DLWS.send({data:'2'});
 
 setTimeout(function(){
   DLWS.sendMany([{data:'x'},{data:'y'},{data:'z'}], 100);

@@ -11,7 +11,7 @@ wss.on('connection', (ws) => {
 
   ws.send('i am started 1')
   setTimeout(() => ws.send('i am started 2'), 2000)
-  setTimeout(() => ws.send('i am started 2'), 4000)
+  setTimeout(() => ws.send('i am started 3'), 4000)
 })
 
 console.log('Sample echo WS server, port 3001')

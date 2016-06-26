@@ -89,7 +89,7 @@ class HTTPProvider extends StreamProvider {
 
     return new StreamAPI(this.type, {
       endpoints,
-      config: this.config
+      config: this.config,
     })
   }
 }
@@ -98,7 +98,8 @@ class WSProvider extends StreamProvider {
   constructor(type, endpoint, protocol) {
     super(type, endpoint, protocol)
 
-    this.service = WSProvider.fromWebSocket(endpoint, protocol)
+    this.buffer = []
+    this.service = this.fromWebSocket(endpoint, protocol)
 
     this.dataStream = this.service
       .concatMap(data => Observable.of(data))
@@ -107,7 +108,7 @@ class WSProvider extends StreamProvider {
       .share()
   }
 
-  static fromWebSocket(endpoint, protocol) {
+  fromWebSocket(endpoint, protocol) {
     const ws = new WebSocket(endpoint, protocol)
     const close = ws.close.bind(ws)
 
@@ -120,7 +121,23 @@ class WSProvider extends StreamProvider {
 
     const observer = Subscriber.create((data) => {
       if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify(data))
+        Observable
+          .of(data)
+          .startWith(...this.buffer)
+          // side eff
+          .do(() => {
+            this.buffer = []
+          })
+          .filter(x => !!x)
+          .subscribe(x => {
+            if (x.code) {
+              close(x.code, x.reason)
+            } else {
+              ws.send(JSON.stringify(x))
+            }
+          })
+      } else {
+        this.buffer = this.buffer.concat(data)
       } },
       (err) => console.error(`Error: ${err}`),
       () => close())
