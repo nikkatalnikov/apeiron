@@ -11,7 +11,7 @@ Leap is a tiny library written in ES6 with RxJS to provide concise and robust in
 [![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
 
 ####**Motivation**
-Why should you prefer Leap over rxjsDom? There are several reasons (WIP for some features, check changelog).
+Why should you prefer Leap over RxJS-DOM? There are several reasons (WIP for some features, check changelog).
 
 **LEAP is not just a syntactic sugar. It is clever, semantically clear abstraction.**
 * Leap provides unified and simpler API for IO of any origin.
@@ -23,7 +23,7 @@ Why should you prefer Leap over rxjsDom? There are several reasons (WIP for some
 * **Leap plays great with RxJS** - dataStream and errorStream are merely RxJS Observables.
 
 **HTTP features:**
-* Leap HTTP relies on Axios library, which has better API than rxjsDom.
+* Leap HTTP relies on Axios library, which has better API than RxJS-DOM.
 * Leap HTTP endpoints config is declarative - you may think of it as dual to View framework router.
 * On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. See **GroupBy API**
 
@@ -36,7 +36,7 @@ Why should you prefer Leap over rxjsDom? There are several reasons (WIP for some
 
 **ALSO:**
 
-* Leap's code is shorter and more human readable than rxjsDom, which grants better debugging experience.
+* Leap's code is shorter and more human readable than RxJS-DOM, which grants better debugging experience.
 * Leap's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
 
 ####**Install**
@@ -88,16 +88,17 @@ Create streamer instance with following data structures:
 
 API:
 
-	-- consider all above as curried with partially applied Streamer 
-	-- JS: Streamer.dataStream ...
-
+	-- consider all above as curried 
+	-- with current Streamer instance already partially applied  
+	
 	-- common
+	-- JS: Streamer.dataStream ...
 	dataStream :: Observable a
 	errorStream :: Observable a
 
 	-- for HTTP and WS
-	send :: data -> IO ()
-	sendMany :: [data] -> Maybe delay -> IO ()
+	send :: Data -> IO ()
+	sendMany :: [Data] -> Maybe Delay -> IO ()
 	
 	-- for SSE and WS
 	close :: IO ()
@@ -108,9 +109,9 @@ API:
 	-- name (multiple args) / url (single arg) / method (single arg)
 
 	-- JS: Streamer.groupByName('ep1','ep2',...'epN')
-	groupByName :: [ep] -> Streamer
-	groupByName [ep] = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
-			where matchedEps = filter pred (endpoints Streamer)
+	groupByName :: [EP] -> Streamer
+	groupByName eps = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
+			where matchedEps = filter (pred eps) (endpoints Streamer)
 
 	groupByUrl :: Url -> Streamer
 	groupByMethod :: Method -> Streamer
@@ -218,7 +219,7 @@ Run server and add subscription:
 
 Senders example:
 	
-	DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}], 1000);
+	DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}]);
 
 	setTimeout(() => {
 	  DLWS.send({data:'x'});
@@ -237,11 +238,8 @@ CLIENT (ClientAPI)
 
 	1. HTTPS check
 	2. HTTP query params
-	3. SSE with credentials check
-	4. WSS check
-	5. WS/SSE reconnect: Bool
-	6. WS/SSE buffer messages until opened
-	7. SSE onclose
+	3. WSS check
+	4. WS reconnect :: Maybe Interval
 
 ####**TODO (Beta-2 release)**
 

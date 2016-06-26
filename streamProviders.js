@@ -156,8 +156,8 @@ class WSProvider extends StreamProvider {
       .subscribe(x => this.send(x))
   }
 
-  close() {
-    this.service.complete()
+  close(code = 1000, reason) {
+    this.send({ code, reason })
   }
 }
 
