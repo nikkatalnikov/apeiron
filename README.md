@@ -119,7 +119,6 @@ API:
 ####**Examples HTTP**
 Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
 
-	const credentials = {};
 	const config = {
 	  baseURL: 'http://localhost:3000'
 	};
@@ -152,7 +151,7 @@ Add endpoints declaratively:
 Create Leap instance:
 
 	const StreamAPI = require('leap-js').StreamAPI;
-	const DL = new StreamAPI('HTTP', { endpoints, config, credentials });
+	const DL = new StreamAPI('HTTP', { endpoints, config });
 
 Run REST API server and add subscription:
 

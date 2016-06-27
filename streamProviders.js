@@ -137,7 +137,7 @@ class WSProvider extends StreamProvider {
             }
           })
       } else {
-        this.buffer = this.buffer.concat(data)
+        this.buffer = [...this.buffer, data]
       } },
       (err) => console.error(`Error: ${err}`),
       () => close())
