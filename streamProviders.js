@@ -47,6 +47,11 @@ class HTTPProvider extends StreamProvider {
   }
 
   sendMany(list, delay = 0) {
+    if (!Number.isInteger(delay)) {
+      this.errorStream.next(new Error(`${delay} is not integer`))
+      throw new Error(`${delay} is not integer`)
+    }
+
     Observable
       .from(list)
       .concatMap(x => Observable.of(x).delay(delay))
@@ -152,6 +157,11 @@ class WSProvider extends StreamProvider {
   }
 
   sendMany(list, delay = 0) {
+    if (!Number.isInteger(delay)) {
+      this.errorStream.next(new Error(`${delay} is not integer`))
+      throw new Error(`${delay} is not integer`)
+    }
+
     Observable
       .from(list)
       .concatMap(x => Observable.of(x).delay(delay))
