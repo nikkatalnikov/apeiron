@@ -13,17 +13,17 @@ class HTTPProvider extends StreamProvider {
   constructor(type, { endpoints, config }) {
     super(type, { endpoints, config })
 
+    const service = axios.create(config)
     this.requestStream = new Subject()
 
     this.dataStream = this.requestStream
-      .concatMap(data => Observable.fromPromise(HTTPProvider.callXHR(config, data)))
+      .concatMap(data => Observable.fromPromise(HTTPProvider.callXHR(service, data)))
       .do(() => void 0, err => this.errorStream.next(err))
       .retry()
       .share()
   }
 
-  static callXHR(config, { endpoint, data }) {
-    const service = axios.create(config)
+  static callXHR(service, { endpoint, data }) {
     const method = endpoint.method
     const handler = service[method].bind(service)
     let url = endpoint.url
@@ -119,26 +119,28 @@ class WSProvider extends StreamProvider {
       ws.onclose = (state) => wsObservable.next(state)
     })
 
-    const observer = Subscriber.create((data) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        Observable
-          .of(data)
-          .startWith(...this.buffer)
-          // side eff
-          .do(() => {
-            this.buffer = []
-          })
-          .filter(x => !!x)
-          .subscribe(x => {
-            if (x.code) {
-              close(x.code, x.reason)
-            } else {
-              ws.send(JSON.stringify(x))
-            }
-          })
-      } else {
-        this.buffer = [...this.buffer, data]
-      } },
+    const observer = Subscriber.create(
+      (data) => {
+        if (ws.readyState === WebSocket.OPEN) {
+          Observable
+            .of(data)
+            .startWith(...this.buffer)
+            // side eff
+            .do(() => {
+              this.buffer = []
+            })
+            .filter(x => !!x)
+            .subscribe(x => {
+              if (x.code) {
+                close(x.code, x.reason)
+              } else {
+                ws.send(JSON.stringify(x))
+              }
+            })
+        } else {
+          this.buffer = [...this.buffer, data]
+        }
+      },
       (err) => console.error(`Error: ${err}`),
       () => close())
 
