@@ -40,257 +40,289 @@ Why should you prefer Leap over RxJS-DOM? There are several reasons (WIP for som
 * Leap's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
 
 ####**Install**
+
 NPM:
 
-	npm i leap-js -S
+```bash
+npm i leap-js -S
+```
 
 then hook up Leap.js into project:
 
 ES6:
 
-	import { StreamAPI } from 'leap-js'
+```javascript
+import { StreamAPI } from 'leap-js'
+```
 
 Node / Browserify:
 
-	const StreamAPI = require('leap-js').StreamAPI
+```javascript
+const StreamAPI = require('leap-js').StreamAPI
+```
 
 UMD:
 
-	<script src="leap/dist/leap.min.js"></script>
+```html
+<script src="leap/dist/leap.min.js"></script>
+```
 
 ####**Class API**
 Import Leap:
 
-	import { StreamAPI } from 'leap-js'
+```javascript
+import { StreamAPI } from 'leap-js'
+```
 
 Create streamer instance with following data structures:
 
-	StreamAPI :: TYPE -> OPTIONS -> Streamer
-	
-	-- JS: const Streamer = new StreamAPI(TYPE, OPTIONS);
-	-- notice that args are not curried.
+```haskell
+StreamAPI :: TYPE -> OPTIONS -> Streamer
 
-	data TYPE = "HTTP" | "WS" | "SSE"
+-- JS: const Streamer = new StreamAPI(TYPE, OPTIONS);
+-- notice that args are not curried.
 
-	data OPTIONS = 
-		HTTPOptions {
-			config :: Maybe AxiosConfig, 
-			endpoints :: LeapEndpointsHash
-		} | 
-		WSOptions {
-			endpoint :: Url,
-			protocol :: Protocol | [Protocol]
-		} |
-		SSEOptions {
-			endpoint :: Url,
-			withCredentials: Bool
-		}
+data TYPE = "HTTP" | "WS" | "SSE"
+
+data OPTIONS = 
+	HTTPOptions {
+		config :: Maybe AxiosConfig, 
+		endpoints :: LeapEndpointsHash
+	} | 
+	WSOptions {
+		endpoint :: Url,
+		protocol :: Protocol | [Protocol]
+	} |
+	SSEOptions {
+		endpoint :: Url,
+		withCredentials: Bool
+	}
+```
 
 ####**Instance API**
 
 Consider all above as curried with current Streamer instance already partially applied.  
 	
 **Common API**
-	
-	-- JS: Streamer.dataStream ...
-	dataStream :: Observable a
-	errorStream :: Observable a
 
-	-- for HTTP and WS
-	-- Notice, that Data type differs for HTTP and WS (see examples below)
-	send :: Data -> IO ()
-	sendMany :: [Data] -> Maybe Delay -> IO ()
-	
-	-- for SSE and WS
-	close :: IO ()
+```haskell	
+-- JS: Streamer.dataStream ...
+dataStream :: Observable a
+errorStream :: Observable a
 
-	
+-- for HTTP and WS
+-- Notice, that Data type differs for HTTP and WS (see examples below)
+send :: Data -> IO ()
+sendMany :: [Data] -> Maybe Delay -> IO ()
+
+-- for SSE and WS
+close :: IO ()
+```
+
 **Group API - HTTP only**
 
-	-- creates new Streamer instance with the endpoints matched by:
-	-- name (multiple args) / url (single arg) / method (single arg)
+```haskell	
+-- creates new Streamer instance with the endpoints matched by:
+-- name (multiple args) / url (single arg) / method (single arg)
 
-	-- JS: Streamer.groupByName('ep1','ep2',...'epN')
-	groupByName :: Args [EP] -> Streamer
-	groupByName eps = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
-			where matchedEps = filter (pred eps) (endpoints Streamer)
+-- JS: Streamer.groupByName('ep1','ep2',...'epN')
+groupByName :: Args [EP] -> Streamer
+groupByName eps = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
+		where matchedEps = filter (pred eps) (endpoints Streamer)
 
-	groupByUrl :: Url -> Streamer
-	groupByMethod :: Method -> Streamer
-
+groupByUrl :: Url -> Streamer
+groupByMethod :: Method -> Streamer
+```
 
 **Headers API - HTTP only**
 
-	-- Add and remove headers for current instance
-	setHeader :: HMethod -> Header -> Value -> ()
-	removeHeader :: HMethod -> Header -> ()
-
+```haskell
+-- Add and remove headers for current instance
+setHeader :: HMethod -> Header -> Value -> ()
+removeHeader :: HMethod -> Header -> ()
+```
 
 **Type reference**
-	
-	data Method = "post" | "put" | "patch" | "get" | "delete" | "head"
-	data HMethod = Method | "common"
-	type Url = String
-	type EP = String
-	type Header = String
-	type Value = String
-	type Delay = Int
-	
-	data Data = HTTPData {
-		endpoint :: EP,
-		payload :: {
-			data :: Maybe a,
-			config :: Maybe AxiosConfig
-		}} | 
-		WSData {
-			endpoint: EP,
-			data: a
-		}
+
+```haskell	
+data Method = "post" | "put" | "patch" | "get" | "delete" | "head"
+data HMethod = Method | "common"
+type Url = String
+type EP = String
+type Header = String
+type Value = String
+type Delay = Int
+
+data Data = HTTPData {
+	endpoint :: EP,
+	payload :: {
+		data :: Maybe a,
+		config :: Maybe AxiosConfig
+	}} | 
+	WSData {
+		endpoint: EP,
+		data: a
+	}
+```
 
 ####**Examples HTTP**
 Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
 
-	const config = {
-	  baseURL: 'http://localhost:3000'
-	};
+```javascript	
+const config = {
+  baseURL: 'http://localhost:3000'
+};
+```
 
 Add endpoints declaratively:
 
-	const endpoints = {
-	  removePost: {
-	    url: '/posts/:id',
-	    method: 'delete'
-	  },
-	  addPost: {
-	    url: '/posts',
-	    method: 'post'
-	  },
-	  getPosts: {
-	    url: '/posts',
-	    method: 'get'
-	  },
-	  getPost: {
-	    url: '/posts/:id',
-	    method: 'get'
-	  },
-	  editPost: {
-	    url: '/posts/:id',
-	    method: 'put'
-	  }
-	}
+```javascript
+const endpoints = {
+  removePost: {
+    url: '/posts/:id',
+    method: 'delete'
+  },
+  addPost: {
+    url: '/posts',
+    method: 'post'
+  },
+  getPosts: {
+    url: '/posts',
+    method: 'get'
+  },
+  getPost: {
+    url: '/posts/:id',
+    method: 'get'
+  },
+  editPost: {
+    url: '/posts/:id',
+    method: 'put'
+  }
+}
+```
 
 Create Leap instance:
 
-	const StreamAPI = require('leap-js').StreamAPI;
-	const DL = new StreamAPI('HTTP', { endpoints, config });
+```javascript
+const StreamAPI = require('leap-js').StreamAPI;
+const DL = new StreamAPI('HTTP', { endpoints, config });
+```
 
 Run REST API server and add subscription:
 
-	DL.dataStream.subscribe(res => {
-	  console.log('Data Stream:');
-	  console.log(res.data);
-	});
+```javascript
+DL.dataStream.subscribe(res => {
+  console.log('Data Stream:');
+  console.log(res.data);
+});
 
-	DL.dataStream.subscribe(insertDataInDOM);
-	
-	DL.errorStream.subscribe(err => {
-	  console.log('Error Stream:');
-	  console.error(err);
-	});
+DL.dataStream.subscribe(insertDataInDOM);
 
-	DL.errorStream.subscribe(err => {
-	  if (err.statusText) {
-	    $('#notifications').text(err.statusText);
-	  } else {
-	    $('#notifications').text(err);
-	  }
-	});
+DL.errorStream.subscribe(err => {
+  console.log('Error Stream:');
+  console.error(err);
+});
 
-	DL.errorStream.subscribe(err => {
-	  console.log('SSE Error Stream:');
-	  console.error(err);
-	});
+DL.errorStream.subscribe(err => {
+  if (err.statusText) {
+    $('#notifications').text(err.statusText);
+  } else {
+    $('#notifications').text(err);
+  }
+});
 
+DL.errorStream.subscribe(err => {
+  console.log('SSE Error Stream:');
+  console.error(err);
+});
+```
 
 Senders example:
-	
-	DL.send('getPosts'); // possible no config for GET 
 
-	DL.send('getPost', {
-		config: { id : 1 } // GET id must be denoted in config for url/:id	
-	});
+```javascript	
+DL.send('getPosts'); // possible no config for GET 
 
-	DL.send('getPost', {
-		config: { // GET url/:id with query params ?ID=123
-			id : 1,
-			params : { ID : 123 } 
-		}
-	});
+DL.send('getPost', {
+    config: { id : 1 } // GET id denoted in config for url/:id	
+});
 
-	DL.send('addPost', {
-		data: { a: '12345' }, // data is required for POST, PUT, PATCH
-		config: {
-			params: { ID: 123 }, // optional
-			withCredentials: true, // optional
-			headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
-		}
-	})
+DL.send('getPost', {
+	config: { // GET url/:id with query params ?ID=123
+		id : 1,
+		params : { ID : 123 } 
+	}
+});
 
-	DL.send('removePost', {
-		// data - ignored for GET, DELETE, HEAD
-		config: {
-			id: 12345, // required for DELETE, HEAD, optional for GET
-			params: { ID: 12345 }, // optional
-			withCredentials: true, // optional
-			headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
-		}
-	})
+DL.send('addPost', {
+	data: { a: '12345' }, // data is required for POST, PUT, PATCH
+	config: {
+		params: { ID: 123 }, // optional
+		withCredentials: true, // optional
+		headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
+	}
+})
 
-	// sendMany argument is the list of tuples :: [(alias, payload)]
-	// i.e. [[alias1, payload1: {data, config}], [alias1, payload1: {data, config}]]
-	
-	DL.sendMany([
-		['getPost', {config: {id: 1} }],
-		['getPost', {config: {id: 9774} }]
-	]);
+DL.send('removePost', {
+	// data - ignored for GET, DELETE, HEAD
+	config: {
+		id: 12345, // required for DELETE, HEAD, optional for GET
+		params: { ID: 12345 }, // optional
+		withCredentials: true, // optional
+		headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
+	}
+})
+
+// sendMany argument is the list of tuples :: [(alias, payload)]
+// i.e. [[alias1, payload1: {data, config}], [alias1, payload1: {data, config}]]
+
+DL.sendMany([
+	['getPost', {config: {id: 1} }],
+	['getPost', {config: {id: 9774} }]
+]);
+```
 
 For config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")
 
 ####**Examples WS/SSE**
 Create Leap instance:
 
-	const StreamAPI = require('leap-js').StreamAPI;
-	const DLWS = new StreamAPI('WS', 'ws://localhost:3001');
+```javascript
+const StreamAPI = require('leap-js').StreamAPI;
+const DLWS = new StreamAPI('WS', 'ws://localhost:3001');
+```
 
 Run server and add subscription:
 
-	DLWS.dataStream
-		.take(10)
-		.do(() => void 0, () => void 0, () => {
-			DLWS.close();
-			console.log('DLWS stopped');
-		})
-		.subscribe((res) => {
-			console.log('WS Data Stream:');
-			res.type === 'message' ?
-			  console.log(res.data) :
-			  console.log(res.type);
-		});
+```javascript
+DLWS.dataStream
+	.take(10)
+	.do(() => void 0, () => void 0, () => {
+		DLWS.close();
+		console.log('DLWS stopped');
+	})
+	.subscribe((res) => {
+		console.log('WS Data Stream:');
+		res.type === 'message' ?
+		  console.log(res.data) :
+		  console.log(res.type);
+	});
 
-	DLWS.errorStream
-		.subscribe(err => {
-		  console.log('SSE Error Stream:');
-		  console.error(err);
-		});
-
+DLWS.errorStream
+	.subscribe(err => {
+	  console.log('SSE Error Stream:');
+	  console.error(err);
+	});
+```
 
 Senders example:
-	
-	DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}]);
 
-	setTimeout(() => {
-	  DLWS.send({data:'x'});
-	}, 3000)
+```javascript
+DLWS.sendMany([{data:'1'},{data:'2'},{data:'3'}]);
+
+setTimeout(() => {
+  DLWS.send({data:'x'});
+}, 3000)
+```
 
 Same way works for SSE.
 
