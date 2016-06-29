@@ -23,24 +23,26 @@ class HTTPProvider extends StreamProvider {
       .share()
   }
 
-  static callXHR(service, { endpoint, data }) {
+  static callXHR(service, { endpoint, data, config }) {
+    const bodylessMethods = ['get', 'delete', 'head']
     const method = endpoint.method
     const handler = service[method].bind(service)
     let url = endpoint.url
 
     if (url.includes(':id')) {
-      if (!data || !data.id) {
+      if (!config.id) {
         return Promise.reject(new Error(`${url} request must have id`))
       }
-      url = url.replace(':id', data.id)
+      url = url.replace(':id', config.id)
     }
-    return handler(url, data)
+    return bodylessMethods.includes(method) ?
+      handler(url, config) : handler(url, data, config)
   }
 
-  send(alias, data) {
+  send(alias, payload = {}) {
     const endpoint = this.endpoints[alias]
     if (endpoint) {
-      this.requestStream.next({ endpoint, data })
+      this.requestStream.next({ endpoint, data: payload.data, config: payload.config })
     } else {
       this.errorStream.next(new Error(`${alias} endpoint doesn't exist`))
     }

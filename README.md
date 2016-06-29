@@ -97,6 +97,7 @@ API:
 	errorStream :: Observable a
 
 	-- for HTTP and WS
+	-- Notice, that Data type differs for HTTP and WS (see examples below)
 	send :: Data -> IO ()
 	sendMany :: [Data] -> Maybe Delay -> IO ()
 	
@@ -183,10 +184,47 @@ Run REST API server and add subscription:
 
 Senders example:
 	
-	DL.send('getPosts');
-	DL.send('getPost', {id:60});
-	DL.sendMany([['getPosts', {id: 1}],['getPosts', {id: 2}]]);
+	DL.send('getPosts'); // possible no config for GET 
 
+	DL.send('getPost', {
+		config: { id : 1 } // GET id must be denoted in config for baseUrl/:id	
+	});
+
+	DL.send('getPost', {
+		config: { // GET url/id with query params ?ID=123
+			id : 1,
+			params : { ID : 123 } 
+		}
+	});
+
+	DL.send('addPost', {
+		data: { a: '12345' }, // data is required for POST, PUT, PATCH
+		config: {
+			params: { ID: 123 }, // optional
+			withCredentials: true, // optional
+			headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
+		}
+	})
+
+	DL.send('removePost', {
+		// data - ignored for GET, DELETE, HEAD
+		config: {
+			id: 12345, // required for DELETE, HEAD, optional for GET
+			params: { ID: 12345 }, // optional
+			withCredentials: true, // optional
+			headers: {'X-Requested-With': 'XMLHttpRequest'} // optional
+		}
+	})
+
+	// sendMany argument is the list of tuples :: [(alias, payload)]
+	// i.e. [[alias1, payload1: {data, config}], [alias1, payload1: {data, config}]]
+	
+	DL.sendMany([
+		['getPost', {config: {id: 1} }],
+		['getPost', {config: {id: 9774} }]
+	]);
+
+For config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")
 
 ####**Examples WS/SSE**
 Create Leap instance:
@@ -236,9 +274,9 @@ ISC
 CLIENT (ClientAPI)
 
 	1. HTTPS check
-	2. HTTP query params
-	3. WSS check
-	4. WS reconnect :: Maybe Interval
+	2. WSS check
+	3. WS reconnect :: Maybe Interval
+	4. Breaking: StreamAPI -> ClientAPI
 
 ####**TODO (Beta-2 release)**
 
