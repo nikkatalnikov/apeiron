@@ -126,6 +126,27 @@ Consider all above as curried with current Streamer instance already partially a
 	removeHeader :: HMethod -> Header -> ()
 
 
+**Type reference**
+	
+	data Method = "post" | "put" | "patch" | "get" | "delete" | "head"
+	data HMethod = Method | "common"
+	type Url = String
+	type EP = String
+	type Header = String
+	type Value = String
+	type Delay = Int
+	
+	data Data = HTTPData {
+		endpoint :: EP,
+		payload :: {
+			data :: Maybe a,
+			config :: Maybe AxiosConfig
+		}} | 
+		WSData {
+			endpoint: EP,
+			data: a
+		}
+
 ####**Examples HTTP**
 Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
 
