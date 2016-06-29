@@ -58,7 +58,7 @@ UMD:
 
 	<script src="leap/dist/leap.min.js"></script>
 
-####**API**
+####**Class API**
 Import Leap:
 
 	import { StreamAPI } from 'leap-js'
@@ -74,7 +74,7 @@ Create streamer instance with following data structures:
 
 	data OPTIONS = 
 		HTTPOptions {
-			config :: AxiosConfig, 
+			config :: Maybe AxiosConfig, 
 			endpoints :: LeapEndpointsHash
 		} | 
 		WSOptions {
@@ -86,12 +86,12 @@ Create streamer instance with following data structures:
 			withCredentials: Bool
 		}
 
-API:
+####**Instance API**
 
-	-- consider all above as curried 
-	-- with current Streamer instance already partially applied  
+Consider all above as curried with current Streamer instance already partially applied.  
 	
-	-- common
+**Common API**
+	
 	-- JS: Streamer.dataStream ...
 	dataStream :: Observable a
 	errorStream :: Observable a
@@ -105,17 +105,26 @@ API:
 	close :: IO ()
 
 	
-	-- Group API - HTTP only
+**Group API - HTTP only**
+
 	-- creates new Streamer instance with the endpoints matched by:
 	-- name (multiple args) / url (single arg) / method (single arg)
 
 	-- JS: Streamer.groupByName('ep1','ep2',...'epN')
-	groupByName :: [EP] -> Streamer
+	groupByName :: Args [EP] -> Streamer
 	groupByName eps = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
 			where matchedEps = filter (pred eps) (endpoints Streamer)
 
 	groupByUrl :: Url -> Streamer
 	groupByMethod :: Method -> Streamer
+
+
+**Headers API - HTTP only**
+
+	-- Add and remove headers for current instance
+	setHeader :: HMethod -> Header -> Value -> ()
+	removeHeader :: HMethod -> Header -> ()
+
 
 ####**Examples HTTP**
 Prepare config (for config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")):
@@ -187,11 +196,11 @@ Senders example:
 	DL.send('getPosts'); // possible no config for GET 
 
 	DL.send('getPost', {
-		config: { id : 1 } // GET id must be denoted in config for baseUrl/:id	
+		config: { id : 1 } // GET id must be denoted in config for url/:id	
 	});
 
 	DL.send('getPost', {
-		config: { // GET url/id with query params ?ID=123
+		config: { // GET url/:id with query params ?ID=123
 			id : 1,
 			params : { ID : 123 } 
 		}

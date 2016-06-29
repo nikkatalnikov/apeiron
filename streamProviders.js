@@ -13,11 +13,24 @@ class HTTPProvider extends StreamProvider {
   constructor(type, { endpoints, config }) {
     super(type, { endpoints, config })
 
-    const service = axios.create(config)
+    this.service = axios.create(config)
+      // AXIOS bug
+    Object.assign(this.service.defaults, {
+      headers: {
+        common: {},
+        post: {},
+        put: {},
+        patch: {},
+        get: {},
+        delete: {},
+        head: {},
+      },
+    })
+
     this.requestStream = new Subject()
 
     this.dataStream = this.requestStream
-      .concatMap(data => Observable.fromPromise(HTTPProvider.callXHR(service, data)))
+      .concatMap(data => Observable.fromPromise(HTTPProvider.callXHR(this.service, data)))
       .do(() => void 0, err => this.errorStream.next(err))
       .retry()
       .share()
@@ -98,6 +111,16 @@ class HTTPProvider extends StreamProvider {
       endpoints,
       config: this.config,
     })
+  }
+
+  setHeader(method, header, value) {
+    Object.assign(this.service.defaults.headers[method], {
+      [header]: value,
+    })
+  }
+
+  removeHeader(method, header) {
+    delete this.service.defaults.headers[method][header]
   }
 }
 
