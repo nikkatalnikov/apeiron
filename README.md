@@ -101,7 +101,7 @@ data OPTIONS =
 
 ####**Instance API**
 
-Consider all above as curried with current Streamer instance already partially applied.  
+Consider all above as curried with current Streamer instance already partially applied.
 	
 **Common API**
 
@@ -142,7 +142,7 @@ setHeader :: HMethod -> Header -> Value -> ()
 removeHeader :: HMethod -> Header -> ()
 ```
 
-**Type reference**
+####**Type reference**
 
 ```haskell	
 data Method = "post" | "put" | "patch" | "get" | "delete" | "head"
@@ -272,8 +272,8 @@ DL.send('removePost', {
 	}
 })
 
-// sendMany argument is the list of tuples :: [(alias, payload)]
-// i.e. [[alias1, payload1: {data, config}], [alias1, payload1: {data, config}]]
+// sendMany argument is the list of tuples :: [(endpoint, payload)]
+// i.e. [[endpoint1, {data, config}], [endpoint2, {data, config}]]
 
 DL.sendMany([
 	['getPost', {config: {id: 1} }],
