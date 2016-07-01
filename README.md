@@ -25,7 +25,7 @@ Why should you prefer Leap over RxJS-DOM? There are several reasons (WIP for som
 **HTTP features:**
 * Leap HTTP relies on Axios library, which has better API than RxJS-DOM.
 * Leap HTTP endpoints config is declarative - you may think of it as dual to View framework router.
-* On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. See **GroupBy API**
+* On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. Check **GroupBy API**.
 
 **WS features:**
 * Leap WS automatically tries to reconnect.
@@ -335,10 +335,8 @@ ISC
 
 CLIENT (ClientAPI)
 
-	1. HTTPS check
-	2. WSS check
-	3. WS reconnect :: Maybe Interval
-	4. Breaking: StreamAPI -> ClientAPI
+	1. WS reconnect :: Maybe Interval
+	2. Breaking: StreamAPI -> ClientAPI
 
 ####**TODO (Beta-2 release)**
 
