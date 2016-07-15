@@ -1,6 +1,6 @@
 {
   "name": "leap-js",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
