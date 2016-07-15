@@ -331,20 +331,20 @@ Check more exmaples in /exmaples folder
 ####**License**
 ISC
 
-####**TODO (Beta-1 release)**
+####**TODO (Beta-3 release)**
 
 CLIENT (ClientAPI)
 
-	1. WS reconnect :: Maybe Interval
-	2. Breaking: StreamAPI -> ClientAPI
+	1. StreamAPI -> ClientAPI
+	2. bower package
+	3. browser support
+	4. WS reconnect
+	5. HTTP.poll
+	6. HTTP.pollUntil
+	7. Notification API
+	8. unit tests
 
-####**TODO (Beta-2 release)**
-
-CLIENT (ClientAPI)
-
-	1. HTTP.poll
-	2. HTTP.pollUntil
-	3. Notification API
+####**TODO (Beta-4 release)**
 
 SERVER (ServerAPI)
 
@@ -352,6 +352,7 @@ SERVER (ServerAPI)
 	2. WS ws
 	3. Regis redis
 	4. Mongo mongodb
+	5. unit tests
 
 ####**Future exmaples**
 1. DL -> Controller -> Stateless Components (React)
