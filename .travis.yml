@@ -7,5 +7,5 @@ node_js:
   - "6"
 install: 
   - npm i
-  - npm run postinstall
+  - npm run bundle
 script: npm test

@@ -1,6 +1,6 @@
 {
   "name": "leap-js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
@@ -12,12 +12,10 @@
     "reactive"
   ],
   "scripts": {
-    "bundle": "browserify streamAPI.js -t babelify -s Leap | derequire > dist/leap.js",
-    "minify": "uglifyjs dist/leap.js > dist/leap.min.js",
+    "bundle": "browserify streamAPI.js -t babelify -s Leap | derequire | uglifyjs > dist/leap.min.js",
     "watch": "watchify streamAPI.js -t babelify -s Leap -vd -o 'derequire > dist/leap.js'",
     "lint": "eslint *.js",
-    "test": "echo Coming soon...",
-    "postinstall": "npm run bundle && npm run minify"
+    "test": "echo Coming soon..."
   },
   "repository": {
     "type": "git",
@@ -33,20 +31,20 @@
   }],
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^3.0.1",
-    "eslint-config-airbnb-base": "^4.0.0",
-    "eslint-plugin-import": "^1.10.2",
-    "watchify": "^3.7.0"
-  },
-  "dependencies": {
-    "axios": "^0.12.0",
     "babel-core": "^6.10.4",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "derequire": "^2.0.3",
-    "rxjs": "^5.0.0-beta.9",
-    "uglify-js": "^2.7.0"
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb-base": "^4.0.0",
+    "eslint-plugin-import": "^1.10.2",
+    "uglify-js": "^2.7.0",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "axios": "^0.13.0",
+    "rxjs": "^5.0.0-beta.10"
   }
 }
