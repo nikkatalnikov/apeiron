@@ -5,5 +5,9 @@
 		"quote-props": [1, "as-needed"],
 		"no-console": 0,
 		"import/prefer-default-export": 0
-	}
+	},
+	"env": {
+        "browser": true,
+        "node": true
+    }
 }
