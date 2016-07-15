@@ -39,6 +39,6 @@ export class StreamAPI {
         throw new Error(`${type} type of protocol doesn't exist`)
     }
     this.dataStream = streamInstance.dataStream
-    this.errorStream = streamInstance.errorStream
+    this.errorStream = streamInstance.errorStream.asObservable()
   }
 }
