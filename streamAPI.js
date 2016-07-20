@@ -27,13 +27,9 @@ export class StreamAPI {
         streamInstance = new SSEProvider(type, ...args)
         this.close = streamInstance.close.bind(streamInstance)
         break
-      // case STREAM_TYPE.COLLECTION:
-      //   streamInstance = new ObservableCollection(...args)
-      //   this.replay = streamInstance.replay.bind(streamInstance)
-      //   break
       // case STREAM_TYPE.STRUCTURE:
-      //   streamInstance = new MutationObserver(...args)
-      //   this.observableStructure = streamInstance.observableStructure
+      //   streamInstance = new MutationObserver(type, ...args)
+      //   this.structure = streamInstance.structure
       //   break
       default:
         throw new Error(`${type} type of protocol doesn't exist`)

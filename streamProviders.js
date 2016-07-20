@@ -231,60 +231,33 @@ class SSEProvider extends StreamProvider {
     this.service.complete()
   }
 }
-/*
-// TO BE IMPLEMENTED LATER:
 
-class ObservableCollection {
-  constructor(arr) {
-    this.arr = arr
-    this.dataStream = new Subject()
-  }
-  get() {
-    return this.arr
-  }
-  push(...args) {
-    this.arr.push(...args)
-  }
-  replay(delay = 0) {
-    Observable
-      .from(this.arr)
-      .concatMap(x => Observable.of(x).delay(delay))
-      .subscribe(x => this.dataStream.next(x))
-  }
-}
+/*class MutationObserver extends StreamProvider {
+  constructor(type, structure) {
+    super(type)
 
-// TO BE IMPLEMENTED LATER:
-
-class MutationObserver {
-  constructor(structure) {
-    this.observables = []
-    this.checkDepth(structure)
-    this.dataStream = this.observables[0].dataStream.merge(this.observables[1].dataStream)
-  }
-  checkDepth(obj) {
-    const hasChildren = Object.keys(obj).length > 0 && obj.constructor === Object
-    if (hasChildren) {
-      console.log(obj)
-      this.observables.push(MutationObserver.fromStructure(obj))
-      Object.keys(obj).forEach((prop) => this.checkDepth(obj[prop]));
+    if (!Proxy) {
+      throw new Error('Proxy API is not supported')
     }
-  }
-  static fromStructure(structure) {
-    const mutationObservable = new BehaviorSubject({ data: structure })
-    const handler = {
-      set: (target, key, value) => {
-        const prev = mutationObservable.getValue()
-        const data = {
-          [key]: value }
-        mutationObservable.next({ data, prev: prev.data, action: 'SET' })
-      },
-      deleteProperty: (obj) => {
-        mutationObservable.next({ prev: obj, action: 'DELETE' })
-      }
-    };
-    const proxy = new Proxy(structure, handler)
+    const service = new Subject()
+    const proxied = new Proxy(structure, {
+      set: function (target, prop, value) {
+        const newStruct = JSON.parse(JSON.stringify(target));
+        const oldStruct = JSON.parse(JSON.stringify(target));
 
-    return { observableStructure: proxy, dataStream: mutationObservable }
+        if (target[prop]) {
+          oldStruct[prop] = target[prop]
+        }
+        newStruct[prop] = value;
+
+        service.next([oldStruct, newStruct])
+        return Reflect.set(target, prop, value)
+      },
+      deleteProperty: function (target, prop) {
+        return Reflect.deleteProperty(target, prop)
+      },
+    })
+    Object.assign(this, { structure: proxied }, { dataStream: service.asObservable() })
   }
 }
 */
