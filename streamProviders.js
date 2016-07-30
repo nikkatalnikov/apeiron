@@ -232,7 +232,8 @@ class SSEProvider extends StreamProvider {
   }
 }
 
-/*class MutationObserver extends StreamProvider {
+/*
+class MutationObserver extends StreamProvider {
   constructor(type, structure) {
     super(type)
 
