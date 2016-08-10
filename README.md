@@ -11,7 +11,7 @@ Leap is a tiny library written in ES6 with RxJS to provide concise and robust in
 [![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
 
 ####**Motivation**
-Why should you prefer Leap over RxJS-DOM? There are several reasons (WIP for some features, check changelog).
+What is the differnrce between Leap and RxJS-DOM? There are several reasons (WIP for some features, check changelog).
 
 **LEAP is not just a syntactic sugar. It is clever, semantically clear abstraction.**
 * Leap provides unified and simpler API for IO of any origin.
