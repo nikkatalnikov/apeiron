@@ -11,32 +11,29 @@ Leap is a tiny library written in ES6 with RxJS to provide concise and robust in
 [![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
 
 ####**Motivation**
-What is the differnrce between Leap and RxJS-DOM? There are several reasons (WIP for some features, check changelog).
+What is the differnrce between Leap and RxJS-DOM?
 
-**LEAP is not just a syntactic sugar. It is clever, semantically clear abstraction.**
-* Leap provides unified and simpler API for IO of any origin.
-* Leap is accurate in terms of app architecture semantics: any IO is implied to be treated with Leap, which enforces separation of concerns based on data TYPE.
-* As a result, barrier for entry into Leap is lower: you may have no reactive or Haskell experience to operate monadic operation of **IO a** binding to **Stream a** quasi-impertively as instances with methods.
-* For simple or small apps full RxJS may be an overhead (see above).
-* Leap implies good architecture practices: Model layer isolation, Model immutability, flattened dataStream and errorStream, radical composability, etc.
+**LEAP is not just a syntactic sugar to avoid boilerplate code. It is flexible abn semantically clean abstraction for M(model) layer.**
+* Leap provides unified and simple API for IO of any origin.
+* Leap is accurate in terms of app architecture semantics: any IO is implied to be treated with Leap, which encourages best FP practices (side effect denotation with data type).
+* Hence Leap implies good architecture: Model layer isolation, Model immutability, flattened dataStream and errorStream, and on the other hand allows high composability and decomposition.
+* The barrier for entry into Leap is low: you may have no reactive or Haskell experience to operate **IO a** binding to **Stream a** quasi-impertively as usual chained methods.
 * Leap has richer API both on HTTP and WS/SSE written in more functional style.
 * **Leap plays great with RxJS** - dataStream and errorStream are merely RxJS Observables.
 
 **HTTP features:**
-* Leap HTTP relies on Axios library, which has better API than RxJS-DOM.
+* Leap HTTP relies on Axios library, which has richer API than RxJS-DOM.
 * Leap HTTP endpoints config is declarative - you may think of it as dual to View framework router.
 * On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. Check **GroupBy API**.
 
-**WS features:**
+**WS/SSE features:**
 * Leap WS automatically tries to reconnect.
 * Leap WS handles WS life cycle for open, close, and error consistently - bound to dataStream/errorStream Observables and send/sendMany API.
 * Leap WS send close command to the server when completed is called.
 * Leap WS enforces a single instance of a socket regardless of the number of subscriptions.
-* Leap WS buffers messages until underlying socket isn't open and then sends them asynchronously when it does open.
+* Leap WS gracefully buffers messages until underlying socket isn't open and then sends them asynchronously when it does open.
 
 **ALSO:**
-
-* Leap's code is shorter and more human readable than RxJS-DOM, which grants better debugging experience.
 * Leap's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
 
 ####**Install**
