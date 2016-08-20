@@ -9,7 +9,7 @@
     "chance": "^1.0.3",
     "jquery": "^2.2.4",
     "json-server": "^0.8.9",
-    "leap-js": "^0.3.0",
+    "leap-js": "^0.3.1",
     "ws": "^1.1.0"
   },
   "scripts": {

@@ -67,9 +67,9 @@ DLWS
   });
 
 DLWS.send({ data: '03' });
-setTimeout(() => DLWS.send({ data: 't1' }), 3000)
+setTimeout(() => DLWS.send({ data: 't1' }), 1)
 DLWS.send({ data: '04' });
 DLWS.send({ data: '05' });
-setTimeout(() => DLWS.send({ data: 't2' }), 4000)
-setTimeout(() => DLWS.send({ data: 't3' }), 4000)
+setTimeout(() => DLWS.send({ data: 't2' }), 2)
+setTimeout(() => DLWS.send({ data: 't3' }), 3)
 

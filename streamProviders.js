@@ -160,7 +160,7 @@ class WSProvider extends StreamProvider {
     const buffer$ = Observable
       .interval(1000)
       .takeWhile(() => ws.readyState !== WebSocket.OPEN)
-      .flatMap(x => Observable.of(this.buffer))
+      .flatMap(() => Observable.of(this.buffer))
 
     const observer = Subscriber.create(
       (data) => {
