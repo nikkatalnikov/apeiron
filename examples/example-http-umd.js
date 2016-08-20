@@ -26,16 +26,18 @@ var endpoints = {
 }
 
 var DL = new Leap.StreamAPI('HTTP', { endpoints: endpoints, config: config });
-DL.dataStream.subscribe(function (res) {
-  console.log('Data Stream:');
-  console.log(res.data);
-});
+DL.send('getPosts')
+  .subscribe(function(res) {
+    console.log('Data Stream:');
+    console.log(res.data);
+  });
+
 DL.dataStream.subscribe(insertDataInDOM);
-DL.errorStream.subscribe(function (err) {
+DL.errorStream.subscribe(function(err) {
   console.log('Error Stream:');
   console.error(err);
 });
-DL.errorStream.subscribe(function (err) {
+DL.errorStream.subscribe(function(err) {
   if (err.statusText) {
     $('#notifications').text(err.statusText);
   } else {
@@ -43,9 +45,9 @@ DL.errorStream.subscribe(function (err) {
   }
 });
 
-var appendObjectData = function (item) {
+var appendObjectData = function(item) {
   var dataItemString = '';
-  $.each(item, function (key, value) {
+  $.each(item, function(key, value) {
     dataItemString += '<i>' + key + '</i>: <i>' + value + '</i>; ';
   });
   $('#myData').append('<li>' + dataItemString + '</li>');
@@ -62,7 +64,7 @@ function insertDataInDOM(res) {
   }
 }
 //Mock data
-var mockGenerator = function () {
+var mockGenerator = function() {
   var mockData = {
     text: chance.word(),
     id: chance.natural({ min: 7, max: 10000 }),
@@ -75,14 +77,11 @@ var mockGenerator = function () {
   DL.send('getPosts');
 }
 var populatingTimeout;
-var populateData = function () {
+var populateData = function() {
   populatingTimeout = setInterval(mockGenerator, 1000);
 }
-var stopPopulatingData = function () {
+var stopPopulatingData = function() {
   clearInterval(populatingTimeout)
 }
 $('#populate').click(populateData);
 $('#stopPopulating').click(stopPopulatingData);
-
-
-DL.send('getPosts');
