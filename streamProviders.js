@@ -157,25 +157,24 @@ class WSProvider extends StreamProvider {
       ws.onclose = (state) => wsObservable.next(state)
     })
 
+    const buffer$ = Observable
+      .interval(1000)
+      .takeWhile(() => ws.readyState !== WebSocket.OPEN)
+      .flatMap(x => Observable.of(this.buffer))
+
     const observer = Subscriber.create(
       (data) => {
-        if (ws.readyState === WebSocket.OPEN) {
-          Observable
-            .of(data)
-            .startWith(...this.buffer)
-            // side eff
-            .do(() => {
-              this.buffer = []
-            })
-            .filter(x => !!x)
-            .subscribe(x => {
-              if (x.code) {
-                close(x.code, x.reason)
-              } else {
-                ws.send(JSON.stringify(x))
-              }
-            })
-        } else {
+        buffer$
+          .concat(Observable.of(data))
+          .subscribe(x => {
+            if (x.code) {
+              close(x.code, x.reason)
+            } else {
+              ws.send(JSON.stringify(x))
+            }
+          })
+
+        if (ws.readyState !== WebSocket.OPEN) {
           this.buffer = [...this.buffer, data]
         }
       },
