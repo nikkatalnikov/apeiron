@@ -14,19 +14,6 @@ class HTTPProvider extends StreamProvider {
     super(type, { endpoints, config })
 
     this.service = axios.create(config)
-      // AXIOS bug
-    Object.assign(this.service.defaults, {
-      headers: {
-        common: {},
-        post: {},
-        put: {},
-        patch: {},
-        get: {},
-        delete: {},
-        head: {},
-      },
-    })
-
     this.requestStream = new Subject()
 
     this.dataStream = this.requestStream
@@ -120,13 +107,13 @@ class HTTPProvider extends StreamProvider {
   }
 
   setHeader(method, header, value) {
-    Object.assign(this.service.defaults.headers[method], {
+    Object.assign(axios.defaults.headers[method], {
       [header]: value,
     })
   }
 
   removeHeader(method, header) {
-    delete this.service.defaults.headers[method][header]
+    delete axios.defaults.headers[method][header]
   }
 }
 
