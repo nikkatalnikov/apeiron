@@ -95,12 +95,8 @@ data OPTIONS =
 		withCredentials: Bool
 	}
 ```
-
-####**Instance API**
-
-Consider all above as curried with current Streamer instance already partially applied.
 	
-**Streams API**
+####**Streams API**
 
 ```haskell	
 -- common interface
@@ -114,7 +110,7 @@ errorStream :: Observable a
 metaStream :: Observable a
 ```
 
-**Send API**
+####**Send API**
 
 Send API is for HTTP and WS only. It tunnels data to IO () and returns dataStream reference.
 
@@ -140,7 +136,7 @@ DL.send('getPosts')
 	.subscribe(x => console.log('Data Stream:', x));
 ```
 
-**Group API - HTTP only**
+####**Group API - HTTP only**
 
 Creates new Streamer instance with the endpoints matched by name (multiple args) / url (single arg) / method (single arg)
 
@@ -155,7 +151,7 @@ groupByUrl :: Url -> Streamer
 groupByMethod :: Method -> Streamer
 ```
 
-**Headers API - HTTP only**
+####**Headers API - HTTP only**
 Add and remove headers for all HTTP requests
 
 ```haskell
