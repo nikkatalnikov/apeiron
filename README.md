@@ -100,42 +100,68 @@ data OPTIONS =
 
 Consider all above as curried with current Streamer instance already partially applied.
 	
-**Common API**
+**Streams API**
 
 ```haskell	
--- JS: Streamer.dataStream ...
+-- common interface
+-- JS: Streamer.dataStream
 dataStream :: Observable a
+-- JS: Streamer.errorStream
 errorStream :: Observable a
 
--- for HTTP and WS
+-- for SSE and WS only
+-- JS: Streamer.metaStream
+metaStream :: Observable a
+```
+
+**Send API**
+Send API is for HTTP and WS only. It tunnels data to IO () and returns dataStream reference.
+
+```haskell	
 -- Notice, that Data type differs for HTTP and WS (see examples below)
-send :: Data -> IO ()
-sendMany :: [Data] -> Maybe Delay -> IO ()
+
+-- JS: Streamer.send(Data)
+send :: Data -> Streamer.dataStream
+
+-- JS: Streamer.send([Data1, Data2.. DataN], 1000) or Streamer.send([Data1, Data2.. DataN])
+sendMany :: [Data] -> Maybe Delay -> Streamer.dataStream
 
 -- for SSE and WS
+-- JS: Streamer.close()
 close :: IO ()
+```
+
+As send / sendMany returns Streamer.dataStream, it is easy to nest operations like:
+
+```javascript
+DL.send('getPosts')
+	.filter(x => x.isActive)
+	.subscribe(res => console.log('Data Stream:', x));
 ```
 
 **Group API - HTTP only**
 
-```haskell	
--- creates new Streamer instance with the endpoints matched by:
--- name (multiple args) / url (single arg) / method (single arg)
+Creates new Streamer instance with the endpoints matched by name (multiple args) / url (single arg) / method (single arg)
 
+```haskell	
 -- JS: Streamer.groupByName('ep1','ep2',...'epN')
 groupByName :: Args [EP] -> Streamer
-groupByName eps = StreamAPI "HTTP" HTTPOptions { endpoints :: matchedEps, ... }
-		where matchedEps = filter (pred eps) (endpoints Streamer)
 
+-- JS: Streamer.groupByUrl('posts')
 groupByUrl :: Url -> Streamer
+
+-- JS: Streamer.groupByMethod('put')
 groupByMethod :: Method -> Streamer
 ```
 
 **Headers API - HTTP only**
+Add and remove headers for all HTTP requests
 
 ```haskell
--- Add and remove headers for current instance
+-- JS: Streamer.setHeader('common', 'AUTH', token)
 setHeader :: HMethod -> Header -> Value -> ()
+
+-- JS: Streamer.removeHeader('common', 'AUTH')
 removeHeader :: HMethod -> Header -> ()
 ```
 
