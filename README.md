@@ -115,6 +115,7 @@ metaStream :: Observable a
 ```
 
 **Send API**
+
 Send API is for HTTP and WS only. It tunnels data to IO () and returns dataStream reference.
 
 ```haskell	
@@ -136,7 +137,7 @@ As send / sendMany returns Streamer.dataStream, it is easy to nest operations li
 ```javascript
 DL.send('getPosts')
 	.filter(x => x.isActive)
-	.subscribe(res => console.log('Data Stream:', x));
+	.subscribe(x => console.log('Data Stream:', x));
 ```
 
 **Group API - HTTP only**
