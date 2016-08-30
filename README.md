@@ -8,12 +8,12 @@ Apeiron is a tiny library written in ES6 with RxJS to provide concise and robust
 [![Latest Stable Version](https://img.shields.io/npm/v/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
 [![Dependency Status](https://img.shields.io/david/nikkatalnikov/apeiron.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/apeiron)
 [![devDependency Status](https://img.shields.io/david/dev/nikkatalnikov/apeiron.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/apeiron#info=devDependencies)
-[![NPM Downloads](https://img.shields.io/npm/dm/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
-
+<!-- [![NPM Downloads](https://img.shields.io/npm/dm/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
+ -->
 ####**Motivation**
 What is the differnrce between Apeiron and RxJS-DOM?
 
-**APEIRON.JS is not just a syntactic sugar to avoid boilerplate code. It is flexible abn semantically clean abstraction for M(model) layer.**
+**Apeiron is not just a syntactic sugar to avoid boilerplate code. It is flexible and semantically clean abstraction for M(model) layer.**
 * Apeiron provides unified and simple API for IO of any origin.
 * Apeiron is accurate in terms of app architecture semantics: any IO is implied to be treated with Apeiron, which encourages best FP practices (side effect denotation with data type).
 * Hence Apeiron implies good architecture: Model layer isolation, Model immutability, flattened dataStream and errorStream, and on the other hand allows high composability and decomposition.
