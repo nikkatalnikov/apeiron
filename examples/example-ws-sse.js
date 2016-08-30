@@ -1,6 +1,6 @@
-var Leap = require('leap-js');
-var DLWS = new Leap.StreamAPI('WS', 'ws://localhost:3001');
-var DLSSE = new Leap.StreamAPI('SSE', 'http://localhost:3002/events');
+var Apeiron = require('apeiron');
+var DLWS = new Apeiron.StreamAPI('WS', 'ws://localhost:3001');
+var DLSSE = new Apeiron.StreamAPI('SSE', 'http://localhost:3002/events');
 
 DLWS.send({ data: '01' })
   .take(11)

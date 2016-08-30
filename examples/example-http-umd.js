@@ -25,7 +25,7 @@ var endpoints = {
   }
 }
 
-var DL = new Leap.StreamAPI('HTTP', { endpoints: endpoints, config: config });
+var DL = new Apeiron.StreamAPI('HTTP', { endpoints: endpoints, config: config });
 DL.send('getPosts')
   .subscribe(function(res) {
     console.log('Data Stream:');

@@ -1,74 +1,74 @@
-<img src="https://github.com/nikkatalnikov/leap/raw/master/media/logo.png" width="300">
+<!-- <img src="https://github.com/nikkatalnikov/apeiron/raw/master/media/logo.png" width="300">
+ -->
+###**APEIRON.JS - reactive bindings for IO-actions and more.** 
+Apeiron is a tiny library written in ES6 with RxJS to provide concise and robust infrastructure for driving **data layer abstractions**: **HTTP**, **SSE**, **WS**, other IO-actions **as multidirectional reactive streams** (ie. binding IO and Observable/Observer with Rx.Subject and vice versa).
 
-###**LEAP.JS - reactive bindings for IO-actions and more.** 
-Leap is a tiny library written in ES6 with RxJS to provide concise and robust infrastructure for driving **data layer abstractions**: **HTTP**, **SSE**, **WS**, other IO-actions **as multidirectional reactive streams** (ie. binding IO and Observable/Observer with Rx.Subject and vice versa).
-
-[![Build Status](https://img.shields.io/travis/nikkatalnikov/leap/master.svg?style=flat-square)](https://travis-ci.org/nikkatalnikov/leap)
-[![Code Climate](https://img.shields.io/codeclimate/github/nikkatalnikov/leap.svg?style=flat-square)](https://codeclimate.com/github/nikkatalnikov/leap)
-[![Latest Stable Version](https://img.shields.io/npm/v/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
-[![Dependency Status](https://img.shields.io/david/nikkatalnikov/leap.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/leap)
-[![devDependency Status](https://img.shields.io/david/dev/nikkatalnikov/leap.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/leap#info=devDependencies)
-[![NPM Downloads](https://img.shields.io/npm/dm/leap-js.svg?style=flat-square)](https://www.npmjs.com/package/leap-js)
+[![Build Status](https://img.shields.io/travis/nikkatalnikov/apeiron/master.svg?style=flat-square)](https://travis-ci.org/nikkatalnikov/apeiron)
+[![Code Climate](https://img.shields.io/codeclimate/github/nikkatalnikov/apeiron.svg?style=flat-square)](https://codeclimate.com/github/nikkatalnikov/apeiron)
+[![Latest Stable Version](https://img.shields.io/npm/v/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
+[![Dependency Status](https://img.shields.io/david/nikkatalnikov/apeiron.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/apeiron)
+[![devDependency Status](https://img.shields.io/david/dev/nikkatalnikov/apeiron.svg?style=flat-square)](https://david-dm.org/nikkatalnikov/apeiron#info=devDependencies)
+[![NPM Downloads](https://img.shields.io/npm/dm/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
 
 ####**Motivation**
-What is the differnrce between Leap and RxJS-DOM?
+What is the differnrce between Apeiron and RxJS-DOM?
 
-**LEAP is not just a syntactic sugar to avoid boilerplate code. It is flexible abn semantically clean abstraction for M(model) layer.**
-* Leap provides unified and simple API for IO of any origin.
-* Leap is accurate in terms of app architecture semantics: any IO is implied to be treated with Leap, which encourages best FP practices (side effect denotation with data type).
-* Hence Leap implies good architecture: Model layer isolation, Model immutability, flattened dataStream and errorStream, and on the other hand allows high composability and decomposition.
-* The barrier for entry into Leap is low: you may have no reactive or Haskell experience to operate **IO a** binding to **Stream a** quasi-impertively as usual chained methods.
-* Leap has richer API both on HTTP and WS/SSE written in more functional style.
-* **Leap plays great with RxJS** - dataStream and errorStream are merely RxJS Observables.
+**APEIRON.JS is not just a syntactic sugar to avoid boilerplate code. It is flexible abn semantically clean abstraction for M(model) layer.**
+* Apeiron provides unified and simple API for IO of any origin.
+* Apeiron is accurate in terms of app architecture semantics: any IO is implied to be treated with Apeiron, which encourages best FP practices (side effect denotation with data type).
+* Hence Apeiron implies good architecture: Model layer isolation, Model immutability, flattened dataStream and errorStream, and on the other hand allows high composability and decomposition.
+* The barrier for entry into Apeiron is low: you may have no reactive or Haskell experience to operate **IO a** binding to **Stream a** quasi-impertively as usual chained methods.
+* Apeiron has richer API both on HTTP and WS/SSE written in more functional style.
+* **Apeiron plays great with RxJS** - dataStream and errorStream are merely RxJS Observables.
 
 **HTTP features:**
-* Leap HTTP relies on Axios library, which has richer API than RxJS-DOM.
-* Leap HTTP endpoints config is declarative - you may think of it as dual to View framework router.
-* On the other hand Leap HTTP is dynamic - you can create new Leap HTTP instances base on subsets of config. Check **GroupBy API**.
+* Apeiron HTTP relies on Axios library, which has richer API than RxJS-DOM.
+* Apeiron HTTP endpoints config is declarative - you may think of it as dual to View framework router.
+* On the other hand Apeiron HTTP is dynamic - you can create new Apeiron HTTP instances base on subsets of config. Check **GroupBy API**.
 
 **WS/SSE features:**
-* Leap WS automatically tries to reconnect.
-* Leap WS handles WS life cycle for open, close, and error consistently - bound to dataStream/errorStream Observables and send/sendMany API.
-* Leap WS send close command to the server when completed is called.
-* Leap WS enforces a single instance of a socket regardless of the number of subscriptions.
-* Leap WS gracefully buffers messages until underlying socket isn't open and then sends them asynchronously when it does open.
+* Apeiron WS automatically tries to reconnect.
+* Apeiron WS handles WS life cycle for open, close, and error consistently - bound to dataStream/errorStream Observables and send/sendMany API.
+* Apeiron WS send close command to the server when completed is called.
+* Apeiron WS enforces a single instance of a socket regardless of the number of subscriptions.
+* Apeiron WS gracefully buffers messages until underlying socket isn't open and then sends them asynchronously when it does open.
 
 **ALSO:**
-* Leap's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
+* Apeiron's end mission is **isomorphic development**: similar API for client and node.js (currently in development).
 
 ####**Install**
 
 NPM:
 
 ```bash
-npm i leap-js -S
+npm i apeiron -S
 ```
 
-then hook up Leap.js into project:
+then hook up APEIRON.js into project:
 
 ES6:
 
 ```javascript
-import { StreamAPI } from 'leap-js'
+import { StreamAPI } from 'apeiron'
 ```
 
 Node / Browserify:
 
 ```javascript
-const StreamAPI = require('leap-js').StreamAPI
+const StreamAPI = require('apeiron').StreamAPI
 ```
 
 UMD:
 
 ```html
-<script src="leap/dist/leap.min.js"></script>
+<script src="apeiron/dist/apeiron.min.js"></script>
 ```
 
 ####**Class API**
-Import Leap:
+Import Apeiron:
 
 ```javascript
-import { StreamAPI } from 'leap-js'
+import { StreamAPI } from 'apeiron'
 ```
 
 Create streamer instance with following data structures:
@@ -84,7 +84,7 @@ data TYPE = "HTTP" | "WS" | "SSE"
 data OPTIONS = 
 	HTTPOptions {
 		config :: Maybe AxiosConfig, 
-		endpoints :: LeapEndpointsHash
+		endpoints :: ApeironEndopints
 	} | 
 	WSOptions {
 		endpoint :: Url,
@@ -221,10 +221,10 @@ const endpoints = {
 }
 ```
 
-Create Leap instance:
+Create Apeiron instance:
 
 ```javascript
-const StreamAPI = require('leap-js').StreamAPI;
+const StreamAPI = require('apeiron').StreamAPI;
 const DL = new StreamAPI('HTTP', { endpoints, config });
 ```
 
@@ -304,10 +304,10 @@ DL.sendMany([
 For config details check [AXIOS API](https://github.com/mzabriskie/axios#axios-api "AXIOS API")
 
 ####**Examples WS/SSE**
-Create Leap instance:
+Create Apeiron instance:
 
 ```javascript
-const StreamAPI = require('leap-js').StreamAPI;
+const StreamAPI = require('apeiron').StreamAPI;
 const DLWS = new StreamAPI('WS', 'ws://localhost:3001');
 ```
 
