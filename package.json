@@ -1,6 +1,6 @@
 {
   "name": "apeiron",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
@@ -35,7 +35,7 @@
     "derequire": "^2.0.3",
     "eslint": "^3.8.0",
     "eslint-config-airbnb-base": "^8.0.0",
-    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-import": "^1.16.0",
     "uglify-js": "^2.7.0",
     "watchify": "^3.7.0"
   },
