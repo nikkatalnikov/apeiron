@@ -49,7 +49,7 @@ class HTTPProvider extends StreamProvider {
       this.errorStream.next(new Error(`${alias} endpoint doesn't exist`))
     }
 
-    return this.dataStream
+    return this.dataStream.asObservable()
   }
 
   sendMany(list, delay = 0) {
@@ -63,7 +63,7 @@ class HTTPProvider extends StreamProvider {
       .concatMap(x => Observable.of(x).delay(delay))
       .subscribe(([alias, data]) => this.send(alias, data))
 
-    return this.dataStream
+    return this.dataStream.asObservable()
   }
 
   groupByMethod(method) {
@@ -173,7 +173,7 @@ class WSProvider extends StreamProvider {
 
   send(data) {
     this.service.next(data)
-    return this.dataStream
+    return this.dataStream.asObservable()
   }
 
   sendMany(list, delay = 0) {
@@ -187,7 +187,7 @@ class WSProvider extends StreamProvider {
       .concatMap(x => Observable.of(x).delay(delay))
       .subscribe(x => this.send(x))
 
-    return this.dataStream
+    return this.dataStream.asObservable()
   }
 
   close(code = 1000, reason) {
