@@ -14,8 +14,8 @@ export class StreamAPI {
         this.groupByMethod = streamInstance.groupByMethod.bind(streamInstance)
         this.groupByUrl = streamInstance.groupByUrl.bind(streamInstance)
         // header API
-        this.setHeader = streamInstance.setHeader.bind(streamInstance)
-        this.removeHeader = streamInstance.removeHeader.bind(streamInstance)
+        this.setHeader = HTTPProvider.setHeader
+        this.removeHeader = HTTPProvider.removeHeader
         break
       case STREAM_TYPE.WS:
         streamInstance = new WSProvider(type, ...args)

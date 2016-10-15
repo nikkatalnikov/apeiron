@@ -106,13 +106,13 @@ class HTTPProvider extends StreamProvider {
     })
   }
 
-  setHeader(method, header, value) {
+  static setHeader(method, header, value) {
     Object.assign(axios.defaults.headers[method], {
       [header]: value,
     })
   }
 
-  removeHeader(method, header) {
+  static removeHeader(method, header) {
     delete axios.defaults.headers[method][header]
   }
 }
