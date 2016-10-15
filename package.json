@@ -1,6 +1,6 @@
 {
   "name": "apeiron",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
