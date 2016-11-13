@@ -11,7 +11,7 @@ Apeiron is a tiny library written in ES6 with RxJS to provide concise and robust
 <!-- [![NPM Downloads](https://img.shields.io/npm/dm/apeiron.svg?style=flat-square)](https://www.npmjs.com/package/apeiron)
  -->
 ####**Motivation**
-What is the differnrce between Apeiron and RxJS-DOM?
+What is the difference between Apeiron and RxJS-DOM?
 
 **Apeiron is not just a syntactic sugar to avoid boilerplate code. It is flexible and semantically clean abstraction for M(model) layer.**
 * Apeiron provides unified and simple API for IO of any origin.
@@ -142,7 +142,7 @@ Creates new Streamer instance with the endpoints matched by name (multiple args)
 
 ```haskell	
 -- JS: Streamer.groupByName('ep1','ep2',...'epN')
-groupByName :: Args [EP] -> Streamer
+groupByName :: Args EP -> Streamer
 
 -- JS: Streamer.groupByUrl('posts')
 groupByUrl :: Url -> Streamer
@@ -292,7 +292,7 @@ DL.send('removePost', {
 	}
 })
 
-// sendMany argument is the list of tuples :: [(endpoint, payload)]
+// sendMany argument is the list of tuples :: [[endpoint, payload]]
 // i.e. [[endpoint1, {data, config}], [endpoint2, {data, config}]]
 
 DL.sendMany([
@@ -346,7 +346,7 @@ setTimeout(() => {
 
 Same way works for SSE.
 
-Check more exmaples in /exmaples folder
+Check more examples in /examples folder
 
 ####**License**
 ISC
@@ -374,7 +374,7 @@ SERVER (ServerAPI)
 	4. Mongo mongodb
 	5. unit tests
 
-####**Future exmaples**
+####**Future examples**
 1. DL -> Controller -> Stateless Components (React)
 2. DL -> Stateless Services -> VM (Angular 1.5)
 3. Architecture guide: async MVC (DL -> Controller -> View)
