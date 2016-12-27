@@ -1,6 +1,6 @@
 {
   "name": "apeiron",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "reactive data layer library",
   "keywords": [
     "ws",
@@ -12,8 +12,8 @@
     "reactive"
   ],
   "scripts": {
-    "bundle": "browserify streamAPI.js -t babelify -s Apeiron | derequire | uglifyjs > dist/apeiron.min.js",
-    "watch": "watchify streamAPI.js -t babelify -s Apeiron -vd -o 'derequire > dist/apeiron.js'",
+    "bundle": "browserify streamAPI.js -t babelify -g uglifyify -s Apeiron -d | derequire | exorcist dist/apeiron.min.js.map > dist/apeiron.min.js",
+    "watch": "watchify streamAPI.js -t babelify -s Apeiron -vd -o 'derequire | exorcist dist/apeiron.js.map > dist/apeiron.js'",
     "lint": "eslint *.js",
     "test": "echo Coming soon..."
   },
@@ -36,11 +36,12 @@
     "eslint": "^3.8.0",
     "eslint-config-airbnb-base": "^8.0.0",
     "eslint-plugin-import": "^1.16.0",
-    "uglify-js": "^2.7.0",
+    "exorcist": "^0.4.0",
+    "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "axios": "^0.15.0",
-    "rxjs": "^5.0.0-rc.1"
+    "axios": "^0.15.3",
+    "rxjs": "^5.0.2"
   }
 }

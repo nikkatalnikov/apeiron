@@ -1,1 +1,1 @@
-module.exports = require('./dist/apeiron.js')
+module.exports = require('./dist/apeiron.min.js')

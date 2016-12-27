@@ -1,6 +1,6 @@
 .DS_Store
-dist/**.js
 *.log
 *.bundle.js
 node_modules
 .idea
+dist/apeiron.js*
