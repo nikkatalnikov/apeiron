@@ -1,4 +1,5 @@
 var Apeiron = require('apeiron');
+var $ = require('jquery');
 var DLWS = new Apeiron.StreamAPI('WS', 'ws://localhost:3001');
 var DLSSE = new Apeiron.StreamAPI('SSE', 'http://localhost:3002/events');
 

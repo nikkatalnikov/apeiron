@@ -13,7 +13,7 @@
     "ws": "^1.1.0"
   },
   "scripts": {
-    "browserify": "browserify example-ws-sse.js > example-ws-sse.bundle.js",
+    "browserify": "browserify -d example-ws-sse.js > example-ws-sse.bundle.js",
     "run-rest": "json-server --watch db.json",
     "run-ws": "node ws-server.js",
     "run-sse": "node sse-server.js"
