@@ -6,6 +6,11 @@ const sendSSE = (req, res) => {
     res.write(`data: ${data}\n\n`)
   }, 2000)
 
+  const TS = (new Date()).toLocaleTimeString()
+
+  req.socket.setNoDelay(true)
+  console.log('SSE Session opened', TS)
+
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
@@ -14,7 +19,7 @@ const sendSSE = (req, res) => {
   })
 
   req.on('close', () => {
-    console.log('SSE closed')
+    console.log('SSE Session closed', TS)
     clearInterval(intervalId)
   })
 }
